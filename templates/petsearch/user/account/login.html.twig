@@ -1,0 +1,57 @@
+{% extends '/layouts/account.html.twig' %}
+
+{% block title %}
+    Connexion
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-login100 no-scroll" style="background-image: url({{ asset('assets/account/images/bg-01.jpg') }});">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+
+            <form action="{{ path('account_login') }}" method="post">
+
+                <span class="login100-form-title p-b-37">
+                    Connectez-vous !
+                </span>
+
+                {% if hasError %}
+                    <div class="alert alert-danger">Une erreur est survenu, le nom d'utilisateur ou le mot de passe est invalide.</div>
+                {% endif %}
+
+                <div class="wrap-input100">
+                    <input type="text" name="_username" id="email" placeholder="Email" class="input100" required value="{{ userName }}">
+                </div>
+
+                <div class="wrap-input100">
+                    <input type="password" name="_password" id="password" placeholder="Mot de passe" class="input100" required>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Connexion 
+                    </button>
+                </div>
+
+                <div class="text-center" style="padding-top: 20px;">
+                    <a href="{{ path('account_register') }}" class="txt2 hov1">
+                        Inscription
+                    </a>{#  |
+                    <a href="{{ path('petsearch_home') }}" class="txt2 hov1">
+                        PET SEARCH
+                    </a>#}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('assets/account/js/login.js') }}"></script>
+{% endblock %}

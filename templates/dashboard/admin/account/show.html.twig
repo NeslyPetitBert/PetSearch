@@ -1,0 +1,47 @@
+{% extends '/layouts/dashboard_layout.html.twig' %}
+
+{% block title %} | Utilisateur {{ adminUser.fullName }} {% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Utilisateur : <strong>{{ adminUser.fullName }}<strong></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    Référence : <span class="span-card">{{ adminUser.id }}</span><hr>
+                    Prénom : <span class="span-card">{{  adminUser.firstName }}</span><hr>
+                    Nom : <span class="span-card">{{ adminUser.lastName }}</span><hr>
+                    Email : <span class="span-card">{{  adminUser.email }}</span><hr>
+                    <br><br>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('admin_accounts_index') }}" class="btn btn-light">La liste des utilisateurs</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('admin_account_new') }}" class="btn btn-success">Créer</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('admin_account_edit', {'id': adminUser.id}) }}" class="btn btn-primary">Modifier</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-danger"
+                            onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l\'utilisateur : {{ adminUser.fullName }} ?`))">Supprimer</a>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

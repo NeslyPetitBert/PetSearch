@@ -1,0 +1,63 @@
+{% extends '/layouts/account.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}
+    Mon profil
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/css/sign-up.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="login100-more" style="background-image: url('{{ asset('assets/account/images/bg-02.jpg') }}');"></div>
+
+            <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+
+                <span class="login100-form-title p-b-59">
+                    Mes informations personnelles
+                </span>
+
+                {{ form_start(form) }}
+
+                    <div class="wrap-input100">
+                    {{ form_row(form.firstName) }}
+                    </div>
+                    <div class="wrap-input100">
+                        {{ form_row(form.lastName) }}
+                    </div>
+                    <div class="wrap-input100">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="wrap-input100">
+                        {{ form_row(form.introduction) }}
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn">
+                                Enregistrez les modifications
+                            </button>
+                        </div>
+                        <div class="col-md-3">&nbsp;</div>
+                        <a href="{{ path('petsearch_home') }}" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+                            PET SEARCH
+                        </a>
+                        <a href="{{ path('account_password') }}" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+                            Modifiez mon mot de passe
+                        </a>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('assets/account/js/sign-up.js') }}"></script>
+{% endblock %}

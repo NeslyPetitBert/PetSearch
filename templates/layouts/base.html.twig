@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pet Search {% block title %}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+
+        <link rel="icon" type="image/png" href="{{ asset('assets/common/images/favicon.png') }}" rel="icon">
+
+    </head>
+
+    <style>
+        body {
+            background-image:url({{ asset('assets/petsearch/img/website-maintenance.png') }});
+        }
+     </style>
+
+    <body>
+        <div style="margin:auto;">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    {{ message | raw }}
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

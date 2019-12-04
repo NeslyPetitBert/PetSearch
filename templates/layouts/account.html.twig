@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Account | {% block title %}{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="{{ asset('assets/common/images/favicon.png') }}" rel="icon">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/bootstrap/css/bootstrap.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/animate/animate.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/css-hamburgers/hamburgers.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/animsition/css/animsition.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/select2/select2.min.cs') }}s">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/vendor/daterangepicker/daterangepicker.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/account/css/util.css') }}">
+        <link href="http://fonts.googleapis.com/css?family=Great+Vibes%7CKaushan+Script%7CRaleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" type="text/css">
+        <!--===============================================================================================-->
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div style="margin:auto;">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    {{ message | raw }}
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        
+        {% block body %}{% endblock %}
+
+        <!--===============================================================================================-->
+        <script src="{{ asset('assets/account/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+        <!--===============================================================================================-->
+        <script src="{{ asset('assets/account/vendor/animsition/js/animsition.min.js') }}"></script>
+        <!--===============================================================================================-->
+        <script src="{{ asset('assets/account/vendor/bootstrap/js/popper.js') }}"></script>
+        <script src="{{ asset('assets/account/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+        <!--===============================================================================================-->
+        <script src="{{ asset('assets/account/vendor/select2/select2.min.js') }}"></script>
+        <!--===============================================================================================-->
+        <script src="{{ asset('assets/account/vendor/daterangepicker/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/account/vendor/daterangepicker/daterangepicker.js') }}"></script>
+        <!--============================account===================================================================-->
+        <script src="{{ asset('assets/account/vendor/countdowntime/countdowntime.js') }}"></script>
+        <!--===============================================================================================-->
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
