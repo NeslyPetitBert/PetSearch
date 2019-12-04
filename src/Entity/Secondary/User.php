@@ -272,18 +272,28 @@ class User
         return $this;
     }
 
-    public function getUpdatedat(): ?\DateTimeInterface
+    public function getUpdetedat(): ?\DateTimeInterface
     {
-        return $this->updatedat;
+        return $this->updetedat;
     }
 
-    public function setUpdatedat(\DateTimeInterface $updatedat): self
+    public function setUpdetedat(\DateTimeInterface $updetedat): self
     {
-        $this->updatedat = $updatedat;
+        $this->updetedat = $updetedat;
 
         return $this;
     }
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
 
+    public function setCity(\DateTimeInterface $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
     /**
      * @return Collection|Billing[]
      */
