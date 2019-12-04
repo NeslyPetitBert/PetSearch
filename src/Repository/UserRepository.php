@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Secondary\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -47,4 +48,39 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getNbUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u)')
+            ->getQuery()
+            ->getResult();
+    }
+    public function getNbActiveUsers()
+    {
+        $now = new DateTime();
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u)')
+            ->where('u.active = 1')
+            ->andWhere('u.createdat <=' .$now->format("Y-m-d H:i:s")."'")
+            ->getQuery()
+            ->getResult();
+    }
+
+
+     public function getMailStat() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+            select
+                substring(email,LOCATE(\'@\',email)+1,LENGTH(email)) as domaine,
+                count(*) as nb_domaine
+                from user
+                where createdat <NOW()
+                group by domaine
+                order by nb_domaine DESC';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
 }
