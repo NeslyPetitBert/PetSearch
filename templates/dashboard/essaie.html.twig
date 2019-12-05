@@ -1,0 +1,23 @@
+{% extends "layouts/dashboard_layout.html.twig" %}
+
+{% block title %}essaie{% endblock %}
+
+{% block body %}
+<div class="card-body">
+    <div class="chart-area">
+        <canvas id="myPieChart"></canvas>
+    </div>
+</div>
+<!--<canvas id="myPieChart" width="100" height="100"></canvas>
+-->
+{% endblock %}
+
+
+ {% block javascripts %}
+    <!-- Page level plugins -->
+    <script src="{{ asset( 'assets/admin/dashboard/vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset( 'assets/admin/dashboard/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset( 'assets/admin/dashboard/js/demo/chart-pie-demo.js') }}"></script>
+ {% endblock %}
