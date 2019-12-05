@@ -1,3 +1,66 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+
+#{"Labels":["yahoo.fr","gmail.com","hotmail.fr","iedj.ie"],"Data":["21419","21246","21177","1"]}
+getMailStat:
+    path: /dashboard/user/mail
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getMailStat
+
+#{"nombre":[{"nombre":"63844"}]}
+getNbUsers:
+    path: /dashboard/user/nombre
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNbUsers
+
+#{"nombre":[{"nombre":"32009"}]}
+getNbActiveUsers:
+    path: /dashboard/user/nbactif
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNbActiveUsers
+
+# resultat bcp trop grand... la flemme
+getNbUserZip:
+    path: /dashboard/user/nbzip
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNbUserZip
+
+#{"nombre":[{"sexe":"Homme","count(*)":"32000"},{"sexe":"Femme","count(*)":"31847"}]}
+getNbUserSexe:
+    path: /dashboard/user/nbsexe
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNbUserSexe
+
+#{"nombre":[{"nb":"12295"},{"nb":"5570"},{"nb":"6903"},{"nb":"9587"},{"nb":"29492"}]}
+getNbUserAge:
+    path: /dashboard/user/nbbyage
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNbUserAge
+
+#beaucoup trop grand pour la suite
+getNewUserWeek:
+    path: /dashboard/user/nbnewweek
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNewUserWeek
+
+getNewUserDay:
+    path: /dashboard/user/nbnewday
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNewUserDay
+
+getNewUserMounth:
+    path: /dashboard/user/nbnewmounth
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNewUserMounth
+
+getNewUserYear:
+    path: /dashboard/user/nbnewyear
+    methods: GET
+    controller: App\Controller\Stats\UserStat::getNewUserYear
+
+
+
+
