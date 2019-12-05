@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Secondary\User;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use DateTime;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)

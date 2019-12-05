@@ -4,7 +4,7 @@ namespace App\Controller\Stats;
 use App\Entity\Secondary\User;
 use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,7 +28,7 @@ class UserStat extends AbstractController{
      */
     public function getMailStat(ORMEntityManagerInterface $entityManager): Response {
         $entityManager = $this->getDoctrine()->getManager('customer');
-        $listUsers = $entityManager->getRepository(UserRepository::class)->getMailStat;
+        $listUsers = $entityManager->getRepository(User::class)->getMailStat();
         $listDomain = [];
         $listDatas = [];
         for ($i = 0; $i < count($listUsers); $i ++) {
