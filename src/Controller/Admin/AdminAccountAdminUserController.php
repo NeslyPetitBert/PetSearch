@@ -4,9 +4,13 @@ namespace App\Controller\Admin;
 
 use App\Entity\Main\AdminUser;
 use App\Form\AdminAccountType;
+use App\Form\PasswordUpdateType;
+use App\Entity\Main\PasswordUpdate;
 use App\Form\AdminRegistrationType;
+use Symfony\Component\Form\FormError;
 use App\Repository\AdminUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * @Route("/dashboard")
  */
-class AdminAccountController extends AbstractController
+class AdminAccountAdminUserController extends AbstractController
 {
 
     private $manager;
@@ -37,6 +41,8 @@ class AdminAccountController extends AbstractController
     }
 
     
+    // COMMON
+
     /**
      * Permet d'afficher et e gérer le formulaire de connexion
      *
@@ -66,6 +72,7 @@ class AdminAccountController extends AbstractController
     public function logout(): void {}
 
 
+    // ADMIN ALL
 
     /**
      * Permet d'afficher les comptes utilisateurs créés
@@ -76,9 +83,13 @@ class AdminAccountController extends AbstractController
      * 
      * @return Response
      */
-    public function adminUserAccount() : Response
+    public function adminUserAccount(Request $request, PaginatorInterface $paginator) : Response
     {
-        $adminUsers = $this->adminUserRepo()->findAll();
+        $adminUsers = $users = $paginator->paginate(
+            $this->adminUserRepo()->findAll(),
+            $request->query->getInt('page', 1),
+            10);
+
         return $this->render('dashboard/admin/account/index.html.twig', [
             'adminUsers' => $adminUsers,
         ]);
@@ -129,7 +140,7 @@ class AdminAccountController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
+    
     // @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
 
     /**
@@ -159,8 +170,6 @@ class AdminAccountController extends AbstractController
      */
     public function adminUserProfile(Request $request, AdminUser $adminUser): Response
     {
-        // $user = $this->getUser();
-
         $form =$this->createForm(AdminAccountType::class, $adminUser);
 
         $form->handleRequest($request);
@@ -183,43 +192,6 @@ class AdminAccountController extends AbstractController
         ]);
     }
 
-
-    /**
-     * Permet d'afficher et de traiter le formulaire de modification de profil de l'administrateur connecté
-     *
-     * @Route("/account/profile", name="admin_account_profile")
-     *
-     * @Security("is_granted('ROLE_ADMIN')")
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function profile(Request $request): Response
-    {
-        $adminUser = $this->getUser();
-
-        $form =$this->createForm(AdminAccountType::class, $adminUser);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($adminUser);
-            $this->manager->flush();
-
-            $this->addFlash('success', "Votre compte administrateur a été modifié avec succès");
-
-            return $this->redirectToRoute('account_profile');
-
-        }
-
-        return $this->render('dashboard/admin/account/profile.html.twig', [
-            'form' => $form->createView(),
-            'user' => $adminUser,
-        ]);
-    }
-
-    
-
     /**
      * @Route("/accounts/{id}/remove", name="admin_account_delete")
      *
@@ -237,4 +209,109 @@ class AdminAccountController extends AbstractController
 
         return $this->redirectToRoute('admin_accounts_index');
     }
+
+
+
+
+    // USER CONNECTED IN THE APP
+
+    /**
+     * Permet d'afficher le profil de l'administrateur connecté
+     *
+     * @Route("/account", name="admin_account")
+     *
+     * @Security("is_granted('ROLE_USER')")
+     *
+     * @return Response
+     */
+    public function adminAccount() : Response
+    {
+        return $this->render('dashboard/admin/account/userapp/account.html.twig', [
+            'adminUser' => $this->getUser()
+        ]);
+    }
+
+
+    /**
+     * Permet d'afficher et de traiter le formulaire de modification de profil de l'administrateur connecté
+     *
+     * @Route("/account/profile", name="admin_account_profile")
+     *
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function adminProfile(Request $request): Response
+    {
+        $adminUser = $this->getUser();
+
+        $form =$this->createForm(AdminAccountType::class, $adminUser);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->manager->persist($adminUser);
+            $this->manager->flush();
+
+            $this->addFlash('success', "Votre compte administrateur a été modifié avec succès");
+
+            return $this->redirectToRoute('account_profile');
+
+        }
+
+        return $this->render('dashboard/admin/account/userapp/profile.html.twig', [
+            'form' => $form->createView(),
+            'adminUser' => $adminUser,
+        ]);
+    }
+
+    /**
+     * Permet d'afficher et de traiter le formulaire de modification de mot de passe pour les AdminUser
+     *
+     * @Route("/account/password-update", name="account_password")
+     *
+     * 
+     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+        // Insctanciation de PasswordUpdate.
+        $passwordUpdate = new PasswordUpdate();
+
+        // Récupération de l'utilisateur connecter
+        $adminUser = $this->getUser();
+
+        $form =$this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //Comparaison du oldPassword au password de l'user actuellement récupéré.
+            if(!password_verify($passwordUpdate->getOldPassword(), $adminUser->getHash())){
+                // Si erreur
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé ne correspond pas à votre mot de passe actuel."));
+
+            }else{
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($adminUser, $$newPassword);
+                $adminUser->setHash($hash);
+                $this->manager->persist($adminUser);
+                $this->manager->flush();
+
+                $this->addFlash('success', "Le mot de passe a été modifié avec succès");
+
+                return $this->redirectToRoute('admin_account_profile');
+            }
+
+        }
+
+        return $this->render('dashboard/admin/account/update_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

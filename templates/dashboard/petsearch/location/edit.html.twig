@@ -1,11 +1,10 @@
 {% extends "/layouts/dashboard_layout.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-{% block title %}Modification de votre compte administrateur {{ adminUser.fullName }} {% endblock %}
+{% block title %}Modification de localisation{% endblock %}
 
 {% block body %}
 <!-- Begin Page Content -->
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-lg-6">
 
@@ -13,34 +12,42 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Modification du compte administrateur : <strong>{{ adminUser.fullName }}</strong></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Modification de localisation</strong></h6>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
                         {{ form_start(form) }}
 
                             <div class="wrap-input100">
-                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.lat) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.lon) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.email) }}
-                            </div>
-                            <div class="wrap-input100">
-                                {{ form_row(form.roles) }}
+                                {{ form_row(form.petIdpet) }}
                             </div>
                             <div class="form-group">
                                 {{ form_rest(form) }}
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Enregistrer les modifications</button>
-                            <button class="btn btn-light">Annuler</button>
-
-                            <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-inverse-danger"
-                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer votre compte : {{ adminUser.fullname }} ?`))">
-                                <i class="fa fa-trash"></i>
+                            <button class="btn btn-dark" type="reset">Annuler</button>
+                            <a href="{{ path('location_delete', {'idlocation': location.idlocation}) }}" class="btn btn-danger"
+                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer cette localisation ?`))">
+                                Supprimer cette localisation
                             </a>
+                            <hr>
+                            <a href="{{ path('locations_index') }}" class="btn btn-primary">
+                                Toutes les localisations
+                            </a>
+                            <a href="{{ path('location_register')}}" class="btn btn-success">
+                                Créer une nouvelle localisation
+                            </a>
+                            <a href="{{ path('admin_location_show', {'idlocation': location.idlocation}) }}" class="btn btn-primary">
+                                Revenir sur la localisation
+                            </a>
+
+                            
                         {{ form_end(form) }}
                     </div>
                 </div>

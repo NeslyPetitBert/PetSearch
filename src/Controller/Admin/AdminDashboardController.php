@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Repository\AdminUserRepository;
+use App\Service\StatsService;
 use Doctrine\ORM\EntityManagerInterface;
 //use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,9 +39,9 @@ class AdminDashboardController extends AbstractController
      */
     public function index(): Response
     {
-        //$this->booking()->findAll();
+        //$stats = $statsService->getStats();
         return $this->render('dashboard/dashboard.html.twig', [
-            'stats' => 'stats'
+            'stats' => 'stats',
         ]);
     }
 }

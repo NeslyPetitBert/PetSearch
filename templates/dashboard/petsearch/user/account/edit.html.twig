@@ -1,6 +1,6 @@
 {% extends "/layouts/dashboard_layout.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-{% block title %}Modification du compte utilisateur {{ adminUser.fullName }} {% endblock %}
+{% block title %}Modification du compte utilisateur {{ user.firstname }} {{ user.lastname }} {% endblock %}
 
 {% block body %}
 <!-- Begin Page Content -->
@@ -12,43 +12,57 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Modification du compte utilisateur : <strong>{{ adminUser.fullName }}</strong></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Modification du compte utilisateur : <strong>{{ user.firstname }} {{ user.lastname }}</strong></h6>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
                         {{ form_start(form) }}
 
                             <div class="wrap-input100">
-                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.firstname) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.lastname) }}
                             </div>
                             <div class="wrap-input100">
                                 {{ form_row(form.email) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.roles) }}
+                                {{ form_row(form.street) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.zip) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.city) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.country) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.sexe) }}
                             </div>
                             <div class="form-group">
                                 {{ form_rest(form) }}
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Enregistrer les modifications</button>
                             <button class="btn btn-dark" type="reset">Annuler</button>
-                            <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-danger"
-                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'administrateur : {{ adminUser.fullname }} ?`))">
+                            <a href="{{ path('account_delete', {'iduser': user.iduser}) }}" class="btn btn-danger"
+                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'administrateur : {{ user.fullname }} ?`))">
                                 Supprimer cet utilisateur
                             </a>
                             <hr>
-                            <a href="{{ path('admin_accounts_index') }}" class="btn btn-primary">
+                            <a href="{{ path('accounts_index') }}" class="btn btn-primary">
                                 Revenir à la liste des utilisateurs
                             </a>
-                            <a href="{{ path('admin_account_new')}}" class="btn btn-success">
-                                Créer nouvel Utilisateur
+                            <a href="{{ path('account_register')}}" class="btn btn-success">
+                                Créer un nouvel utilisateur
                             </a>
-                            <a href="{{ path('admin_account_show', {'id': adminUser.id}) }}" class="btn btn-primary">
+                            <a href="{{ path('admin_user_account_show', {'iduser': user.iduser}) }}" class="btn btn-primary">
                                 Revenir sur la fiche de cet utilisateur
                             </a>
+
+                            
                         {{ form_end(form) }}
                     </div>
                 </div>

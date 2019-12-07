@@ -1,0 +1,25 @@
+<td>
+<a href="{{ path('admin_billing_show', {'idbilling': billing.idbilling}) }}" class="btn btn-inverse-secondary">
+    {{ billing.idbilling }}	
+</a>
+</td>
+<td>{{ billing.datebilling ? billing.datebilling|date('d-m-Y H:i:s') : '' }}</td>
+<td>{{ billing.amount }}</td>
+<td>{{ billing.createdat ? billing.createdat|date('d-m-Y H:i:s') : '' }}</td>
+<td>{{ billing.userIduser.fullname }}</td>
+<td>
+    <a href="{{ path('admin_billing_show', {'idbilling': billing.idbilling}) }}" class="btn btn-inverse-secondary">
+        <i class="fa fa-eye"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('billing_edit', {'idbilling': billing.idbilling}) }}" class="btn btn-inverse-primary">
+        <i class="fa fa-edit"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('billing_delete', {'idbilling': billing.idbilling}) }}" class="btn btn-inverse-danger"
+        onclick="return confirm((`Êtes-vous sûre de vouloir supprimer cette facture ?`))">
+        <i class="fa fa-trash"></i>
+    </a>
+</td>

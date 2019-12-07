@@ -1,0 +1,33 @@
+<td>
+<a href="{{ path('admin_pet_show', {'idpet': pet.idpet}) }}" class="btn btn-inverse-secondary">
+    {{ pet.idpet }}	
+</a>
+</td>
+<td>{{ pet.name }}</td>
+<td>{{ pet.type }}</td>
+<td>{{ pet.race }}</td>
+<td>{{ pet.birthday ? pet.birthday|date('d-m-Y H:i:s') : '' }}</td>
+<td>
+    {% if pet.sexe == 'Homme' %}
+    Mâle
+    {% else %}
+        Femelle
+    {% endif %}
+</td>
+<td>{{ pet.dateacquisition ? pet.dateacquisition|date('d-m-Y H:i:s') : '' }}</td>
+<td>{{ pet.createdat ? pet.createdat|date('d-m-Y H:i:s') : '' }}</td>
+<td>{{ pet.updatedat ? pet.updatedat|date('d-m-Y H:i:s') : '' }}</td>
+
+<td>{{ pet.userIduser.fullName }}</td>
+
+<td>
+    <a href="{{ path('pet_edit', {'idpet': pet.idpet}) }}" class="btn btn-inverse-primary">
+        <i class="fa fa-edit"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('pet_delete', {'idpet': pet.idpet}) }}" class="btn btn-inverse-danger"
+        onclick="return confirm((`Êtes-vous sûre de vouloir supprimer cet animal : {{ pet.name }}?`))">
+        <i class="fa fa-trash"></i>
+    </a>
+</td>
