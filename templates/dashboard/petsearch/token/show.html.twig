@@ -1,0 +1,44 @@
+{% extends '/layouts/dashboard_layout.html.twig' %}
+
+{% block title %} Token {{ token.idtoken }} {% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Token : <strong>{{ token.idtoken }} <strong></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    Référence : <span class="span-card">{{ token.idtoken }}</span><hr>
+                    Type : <span class="span-card">{{  token.type }}</span><hr>
+                    Device : <span class="span-card">{{ token.decive }}</span><hr>
+                    lat : <span class="span-card">{{  token.lat }}</span><hr>
+                    lon : <span class="span-card">{{ token.lon }}</span><hr> 
+                    Date de création : <span>{{ token.createdat ? token.createdat|date('d-m-Y H:i:s') : '' }}</span> <hr>
+                    Utilisateur : <span class="span-card">{{ token.user.fullname }}</span><hr>
+                    <br><br>
+                    <a href="{{ path('tokens_index') }}" class="btn btn-primary">
+                                Revenir à la liste des tokens
+                    </a>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('token_delete', {'idetoken': token.idtoken }) }}" class="btn btn-danger"
+                            onclick="return confirm((`Êtes-vous sûre de vouloir supprimer ce token ?`))">Supprimer</a>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

@@ -1,0 +1,14 @@
+{# total items count #}
+<div  class="d-flex justify-content-left">
+    <div class="count">
+        <h6 style="display: inline-block !important;">Nombre de lignes : </h1> <strong>{{ countRows }}</strong>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center">
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(entity) }}
+    </div>
+</div>

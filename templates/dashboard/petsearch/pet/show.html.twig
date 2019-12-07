@@ -1,0 +1,96 @@
+{% extends '/layouts/dashboard_layout.html.twig' %}
+
+{% block title %} | Animal : {{ pet.name }} {% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Animal : <strong>{{ pet.name }}<strong> / N° d'identification : <strong>{{ pet.idpet }}<strong></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    Référence : <span class="span-card">{{ pet.idpet }}</span><hr>
+                    Nom : <span class="span-card">{{  pet.name }}</span><hr>
+                    Type : <span class="span-card">{{ pet.type }}</span><hr>
+                    Race : <span class="span-card">{{  pet.race }}</span><hr>
+                    Anniversaire : <span class="span-card">{{ pet.birthday ? pet.birthday|date('d-m-Y H:i:s') : '' }}</span> <hr>
+                    Sexe : <span class="span-card">
+                           {% if pet.sexe == 'Homme' %}
+                            Mâle
+                            {% else %}
+                                Femelle
+                            {% endif %}
+                        </span>
+                        <hr> 
+                    Date d'acquisition : <span class="span-card">{{ pet.dateacquisition ? pet.dateacquisition|date('d-m-Y H:i:s') : '' }}</span> <hr>
+                    Date de création : <span class="span-card">{{ pet.createdat ? pet.createdat|date('d-m-Y H:i:s') : '' }}</span> <hr>
+                    Date de modification : <span class="span-card">{{ pet.updatedat ? pet.updatedat|date('d-m-Y H:i:s') : '' }}</span> <hr>
+                    Propriétaire : <span class="span-card">{{ pet.userIduser.fullname }}</span><hr>
+
+                    Nombre de Localisations : <span class="span-card"> {{ pet.locations|length }} </span><br><br>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
+						<thead style="color:#005582 !important;">
+                            <tr>
+							<th>#</th>
+							<th>Latitudes</th>
+							<th>Longitude</th>
+							<th>Date de création</th>
+                            </tr>
+                        </thead>
+                        <tfoot style="color:#005582 !important;">
+                            <tr>
+							<th>#</th>
+							<th>Latitudes</th>
+							<th>Longitude</th>
+							<th>Date de création</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+							{% for location in pet.locations %}
+                                {% if loop.index is divisible by(2) %}
+                                    <tr style="background-color:#f4f3f6 !important;">
+                                    {% else %}
+                                        <tr style="background-color:#fbf9ff !important;">
+                                        {% endif %}
+                                        {% if pet.idpet == location.petIdpet.idpet %}
+                                            <td>{{ location.idlocation }}</td>
+                                            <td>{{ location.lat }}</td>
+                                            <td>{{ location.lon }}</td>
+                                            <td>{{ location.createdat ? location.createdat|date('d-m-Y H:i:s') : '' }}</td>
+                                        {% endif %}
+                                    </tr>
+							{% endfor %}
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <a href="{{ path('pets_index') }}" class="btn btn-primary">
+                                Revenir à la liste des animaux
+                    </a>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('pet_register') }}" class="btn btn-success">Créer</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('pet_edit', {'idpet': pet.idpet }) }}" class="btn btn-primary">Modifier</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('pet_delete', {'idpet': pet.idpet }) }}" class="btn btn-danger"
+                            onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'animal : {{ pet.name }} ?`))">Supprimer</a>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

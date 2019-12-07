@@ -3,6 +3,9 @@ security:
         App\Entity\Main\AdminUser:
             algorithm: bcrypt
 
+        App\Entity\Secondary\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
@@ -26,7 +29,7 @@ security:
 
             logout:
                 path: admin_account_logout
-                target: dashboard
+                target: administrator_index
         main:
             anonymous: true
 

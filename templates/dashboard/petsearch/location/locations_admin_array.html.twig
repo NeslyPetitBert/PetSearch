@@ -1,0 +1,22 @@
+<td>
+<a href="{{ path('admin_location_show', {'idlocation': location.idlocation}) }}" class="btn btn-inverse-secondary">
+    {{ location.idlocation }}	
+</a>
+</td>
+<td>{{ location.lon }}</td>
+<td>{{ location.lat }}</td>
+<td>{{ location.createdat ? location.createdat|date('d-m-Y H:i:s') : '' }}</td>
+
+<td>{{ location.petIdpet.name }}</td>
+
+<td>
+    <a href="{{ path('location_edit', {'idlocation': location.idlocation}) }}" class="btn btn-inverse-primary">
+        <i class="fa fa-edit"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('location_delete', {'idlocation': location.idlocation}) }}" class="btn btn-inverse-danger"
+        onclick="return confirm((`Êtes-vous sûre de vouloir supprimer cette localisation ?`))">
+        <i class="fa fa-trash"></i>
+    </a>
+</td>

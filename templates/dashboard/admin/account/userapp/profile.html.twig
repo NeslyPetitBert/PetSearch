@@ -1,10 +1,11 @@
 {% extends "/layouts/dashboard_layout.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-{% block title %}Modification du compte utilisateur {{ adminUser.fullName }} {% endblock %}
+{% block title %}Modification de votre compte administrateur {{ adminUser.fullName }} {% endblock %}
 
 {% block body %}
 <!-- Begin Page Content -->
     <div class="container-fluid">
+
         <div class="row">
             <div class="col-lg-6">
 
@@ -12,7 +13,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Modification du compte utilisateur : <strong>{{ adminUser.fullName }}</strong></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Modification du compte administrateur : <strong>{{ adminUser.fullName }}</strong></h6>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
@@ -34,20 +35,15 @@
                                 {{ form_rest(form) }}
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Enregistrer les modifications</button>
-                            <button class="btn btn-dark" type="reset">Annuler</button>
-                            <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-danger"
-                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'administrateur : {{ adminUser.fullname }} ?`))">
-                                Supprimer cet utilisateur
+                            <button class="btn btn-light" type="reset">Annuler</button>
+
+                            <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-inverse-danger"
+                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer votre compte : {{ adminUser.fullname }} ?`))">
+                                <i class="fa fa-trash"></i>
                             </a>
-                            <hr>
-                            <a href="{{ path('admin_accounts_index') }}" class="btn btn-primary">
-                                Revenir à la liste des utilisateurs
-                            </a>
-                            <a href="{{ path('admin_account_new')}}" class="btn btn-success">
-                                Créer nouvel Utilisateur
-                            </a>
-                            <a href="{{ path('admin_account_show', {'id': adminUser.id}) }}" class="btn btn-primary">
-                                Revenir sur la fiche de cet utilisateur
+                            <div class="col-md-3">&nbsp;</div>
+                            <a href="{{ path('admin_account') }}" class="btn btn-primary">
+                                Revenir à mon espace personnel
                             </a>
                         {{ form_end(form) }}
                     </div>
