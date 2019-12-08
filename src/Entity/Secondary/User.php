@@ -5,13 +5,25 @@ namespace App\Entity\Secondary;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email_UNIQUE", columns={"email"})})
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="Un autre utilisateur s'est déjà inscrit avec l'adresse email {{ value }} merci de vous enregistrer avec une autre adresse email"
+ * )
+ * @UniqueEntity(
+ *     fields={"lastname", "firstname"},
+ *     errorPath="firstname",
+ *     message="Le prénom {{ value }} est déjà utilisé avec le nom de famille indiqué."
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -25,6 +37,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez votre nom pour continuer"
+     * )
      * @ORM\Column(name="firstname", type="string", length=45, nullable=false)
      */
     private $firstname;
@@ -32,6 +51,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez votre prénom pour continuer"
+     * )
      * @ORM\Column(name="lastname", type="string", length=45, nullable=false)
      */
     private $lastname;
@@ -39,6 +65,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Email(
+     *     message = "L'adresse email '{{ value }}' n'est pas une adresse email valide.",
+     * )
+     * @Assert\NotBlank(
+     *     message="Vous avez oublié de saisir votre adresse email"
+     * )
+     * 
      * @ORM\Column(name="email", type="string", length=155, nullable=false)
      */
     private $email;
@@ -46,6 +79,9 @@ class User
     /**
      * @var string
      *
+     * @Assert\NotBlank(
+     *     message="Choisissez un mot de passe.."
+     * )
      * @ORM\Column(name="password", type="string", length=80, nullable=false)
      */
     private $password;
@@ -53,6 +89,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le nom de votre rue pour continuer"
+     * )
      * @ORM\Column(name="street", type="string", length=155, nullable=false)
      */
     private $street;
@@ -60,6 +103,14 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le code postal de votre ville pour continuer"
+     * )
+     * 
      * @ORM\Column(name="zip", type="string", length=20, nullable=false)
      */
     private $zip;
@@ -67,6 +118,14 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le nom de votre ville pour continuer"
+     * )
+     * 
      * @ORM\Column(name="city", type="string", length=50, nullable=false)
      */
     private $city;
@@ -74,6 +133,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le nom de votre Pays pour continuer"
+     * )
      * @ORM\Column(name="country", type="string", length=45, nullable=false, options={"default"="France"})
      */
     private $country = 'France';
@@ -81,6 +147,7 @@ class User
     /**
      * @var \DateTime
      *
+
      * @ORM\Column(name="birthday", type="date", nullable=false)
      */
     private $birthday;
@@ -88,6 +155,13 @@ class User
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez votre sex pour continuer"
+     * )
      * @ORM\Column(name="sexe", type="string", length=0, nullable=false, options={"default"="Femme"})
      */
     private $sexe = 'Femme';
@@ -104,14 +178,14 @@ class User
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdat = 'CURRENT_TIMESTAMP';
+    private $createdat;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updetedAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $updetedat = 'CURRENT_TIMESTAMP';
+    private $updetedat;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Secondary\Billing", mappedBy="userIduser", orphanRemoval=true)
@@ -134,6 +208,23 @@ class User
         $this->pets = new ArrayCollection();
         $this->tokens = new ArrayCollection();
     }
+
+    /**
+     * Callback appelé à chaque fois qu'on créé une réservation
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @throws \Exception
+     */
+    public function prePersist(){
+        if(empty($this->createdat)){
+            $this->createdat = new \DateTime();
+        }
+        if(empty($this->updetedat)){
+            $this->updetedat = new \DateTime();
+        }
+    }
+
 
     public function getFullName(){
         return "{$this->firstname} {$this->lastname}";
@@ -294,7 +385,7 @@ class User
         return $this->city;
     }
 
-    public function setCity(\DateTimeInterface $city): self
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
@@ -391,6 +482,26 @@ class User
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+    }
+
+
+    public function getSalt()
+    {
+    }
+
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+
+    public function eraseCredentials()
+    {
     }
 
 }

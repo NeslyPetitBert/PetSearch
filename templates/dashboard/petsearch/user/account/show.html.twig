@@ -40,58 +40,63 @@
                     Date de modification : <span class="span-card">{{ user.updetedat ? user.updetedat|date('d-m-Y H:i:s') : '' }}</span><hr>
 
                     Nombre d'animaux associés : <span class="span-card"> {{ user.pets|length }} </span><br><br>
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
-						<thead style="color:#005582 !important;">
-                            <tr>
-							<th>#</th>
-							<th>Nom</th>
-							<th>Type</th>
-							<th>Race</th>
-                            <th>Sexe</th>
-                            <th>Propriétaire</th>
-                            <th>Date d'aniversaire</th>
-                            <th>Date d'acquisition</th>
-                            </tr>
-                        </thead>
-                        <tfoot style="color:#005582 !important;">
-                            <tr>
-							<th>#</th>
-							<th>Nom</th>
-							<th>Type</th>
-							<th>Race</th>
-                            <th>Sexe</th>
-                            <th>Propriétaire</th>
-                            <th>Date d'aniversaire</th>
-                            <th>Date d'acquisition</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-							{% for pet in user.pets %}
-                                {% if loop.index is divisible by(2) %}
-                                    <tr style="background-color:#f4f3f6 !important;">
-                                    {% else %}
-                                        <tr style="background-color:#fbf9ff !important;">
-                                        {% endif %}
-                                        {% if user.iduser == pet.userIduser.iduser %}
-                                            <td>{{ pet.idpet }}</td>
-                                            <td>{{ pet.name }}</td>
-                                            <td>{{ pet.type }}</td>
-                                            <td>{{ pet.race }}</td>
-                                            <td>
-                                            {% if pet.sexe == 'Homme' %}
-                                                Mâle
-                                                {% else %}
-                                                    Femelle
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ pet.userIduser.fullname }}</td>
-                                            <td>{{ pet.createdat ? pet.createdat|date('d-m-Y H:i:s') : '' }}</td>
-                                            <td>{{ pet.updatedat ? pet.updatedat|date('d-m-Y H:i:s') : '' }}</td>
-                                        {% endif %}
-                                    </tr>
-							{% endfor %}
-                        </tbody>
-                    </table>
+                    {% if user.pets|length > 0 %}
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
+                            <thead style="color:#005582 !important;">
+                                <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Race</th>
+                                <th>Sexe</th>
+                                <th>Propriétaire</th>
+                                <th>Date d'aniversaire</th>
+                                <th>Date d'acquisition</th>
+                                </tr>
+                            </thead>
+                            <tfoot style="color:#005582 !important;">
+                                <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Race</th>
+                                <th>Sexe</th>
+                                <th>Propriétaire</th>
+                                <th>Date d'aniversaire</th>
+                                <th>Date d'acquisition</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for pet in user.pets %}
+                                    {% if loop.index is divisible by(2) %}
+                                        <tr style="background-color:#f4f3f6 !important;">
+                                        {% else %}
+                                            <tr style="background-color:#fbf9ff !important;">
+                                            {% endif %}
+                                            {% if user.iduser == pet.userIduser.iduser %}
+                                                <td>{{ pet.idpet }}</td>
+                                                <td>{{ pet.name }}</td>
+                                                <td>{{ pet.type }}</td>
+                                                <td>{{ pet.race }}</td>
+                                                <td>
+                                                {% if pet.sexe == 'Homme' %}
+                                                    Mâle
+                                                    {% else %}
+                                                        Femelle
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ pet.userIduser.fullname }}</td>
+                                                <td>{{ pet.createdat ? pet.createdat|date('d-m-Y H:i:s') : '' }}</td>
+                                                <td>{{ pet.updatedat ? pet.updatedat|date('d-m-Y H:i:s') : '' }}</td>
+                                            {% endif %}
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                            Aucun enregistrement n'a été trouvé
+                    {% endif %}
+                    
 
                     <br><br>
                     <a href="{{ path('accounts_index') }}" class="btn btn-primary">

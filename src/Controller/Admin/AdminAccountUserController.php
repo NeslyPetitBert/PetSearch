@@ -22,13 +22,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AdminAccountUserController extends AbstractController
 {
 
-    private $manager;
-
     private $userRepo;
 
-    public function __construct(EntityManagerInterface $manager, UserRepository $userRepo)
+    public function __construct(UserRepository $userRepo)
     {
-        $this->manager = $manager;
         $this->userRepo = $userRepo;
     }
     
@@ -62,12 +59,14 @@ class AdminAccountUserController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function userCreate(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function userCreate(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $emi): Response
     {
+        $emi = $this->getDoctrine()->getManager('customer');
         //instantiation User
         $user = new User();
 
@@ -83,14 +82,16 @@ class AdminAccountUserController extends AbstractController
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
             //persistence of the user
-            $this->manager->persist($user);
+            $emi->persist($user);
             //registering the user in the database
-            $this->manager->flush();
+            $emi->flush();
 
             // flash message
             $this->addFlash('success', "Le compte utilisateur <strong>{$user->getFirstName()} {$user->getLastName()} </strong> a été créé avec succès");
 
-            return $this->redirectToRoute('account_index');
+            return $this->redirectToRoute('admin_user_account_show', [
+                'iduser' => $user->getIduser(),
+            ]);
 
         }
 
@@ -102,7 +103,7 @@ class AdminAccountUserController extends AbstractController
     /**
      * Permet d'afficher et de traiter le formulaire de création de compte utilisateur User
      * 
-     * @Route("/admin/accounts/{iduser}", name="admin_user_account_show", methods={"GET"})
+     * @Route("/admin/user-accounts/{iduser}", name="admin_user_account_show", methods={"GET"})
      * 
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
@@ -124,23 +125,26 @@ class AdminAccountUserController extends AbstractController
      * 
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      *
+     * @param EntityManagerInterface $emi
      * @param Request $request
      * @return Response
      */
-    public function userEdit(Request $request, User $user): Response
+    public function userEdit(Request $request, User $user, EntityManagerInterface $emi): Response
     {
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $form =$this->createForm(AccountType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($user);
-            $this->manager->flush();
+            $emi->persist($user);
+            $emi->flush();
 
             $this->addFlash('success', "Le compte utilisateur <strong>{$user->getFirstName()} {$user->getLastName()} </strong> a été modifié avec succès");
 
-            return $this->redirectToRoute('admin_account_show', [
-                'id' => $user->getIduser(),
+            return $this->redirectToRoute('admin_user_account_show', [
+                'iduser' => $user->getIduser(),
             ]);
 
         }
@@ -156,17 +160,19 @@ class AdminAccountUserController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param User $user
      * @return Response
      */
-    public function userDeleteAccount(User $user): Response
+    public function userDeleteAccount(User $user, EntityManagerInterface $emi): Response
     {
-        $this->manager->remove($user);
-        $this->manager->flush();
+        $emi = $this->getDoctrine()->getManager('customer');
+        $emi->remove($user);
+        $emi->flush();
 
         $this->addFlash('danger', "Compte supprimé avec succès");
 
-        return $this->redirectToRoute('admin_accounts_index');
+        return $this->redirectToRoute('accounts_index');
     }
 
 }
