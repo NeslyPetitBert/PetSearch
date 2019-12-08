@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\AdminUserRepository;
-use App\Service\StatsService;
+use App\Repository\BillingRepository;
+use App\Repository\LocationRepository;
+use App\Repository\PetRepository;
+use App\Repository\TokenRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-//use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,16 +19,27 @@ class AdminDashboardController extends AbstractController
 
     private $manager;
 
-    private $adminUserRepo;
+    private $billingRepo;
+    private $petRepo;
+    private $userRepo;
+    private $locationRepo;
+    private $tokenRepo;
 
-    public function __construct(EntityManagerInterface $manager, AdminUserRepository $adminUserRepo)
+    public function __construct(
+        EntityManagerInterface $manager, 
+        BillingRepository $billingRepo,
+        PetRepository $petRepo,
+        UserRepository $userRepo,
+        LocationRepository $locationRepo,
+        TokenRepository $tokenRepo
+        )
     {
         $this->manager = $manager;
-        $this->adminUserRepo = $adminUserRepo;
-    }
-
-    protected function adminUserRepo(){
-        return $this->adminUserRepo;
+        $this->billingRepo = $billingRepo;
+        $this->petRepo = $petRepo;
+        $this->userRepo = $userRepo;
+        $this->locationRepo = $locationRepo;
+        $this->tokenRepo = $tokenRepo;
     }
 
 
@@ -37,11 +50,20 @@ class AdminDashboardController extends AbstractController
      * 
      * @return Response
      */
-    public function index(): Response
+    public function indexDashboard(): Response
     {
-        //$stats = $statsService->getStats();
+        $billings_stats = $this->billingRepo->getNbBillAll();
+        $pets_stats = $this->petRepo->getNbPet();
+        $users_stats = $this->userRepo->getNbUsers();
+        $locations_stats = $this->locationRepo->getNbLocation();
+        $tokens_stats = $this->tokenRepo->getNbToken();
+
         return $this->render('dashboard/dashboard.html.twig', [
-            'stats' => 'stats',
+            'billings_stats' => $billings_stats,
+            'pets_stats' => $pets_stats,
+            'users_stats' => $users_stats,
+            'locations_stats' => $locations_stats,
+            'tokens_stats' => $tokens_stats,
         ]);
     }
 }
