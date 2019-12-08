@@ -1,160 +1,73 @@
 <?php
+
 namespace App\Controller\Stats;
 
-use App\Entity\Secondary\User;
-use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
+
 use App\Repository\UserRepository;
 
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+class UserStat extends AbstractController
+{
 
+    private $manager;
 
-class UserStat extends AbstractController{
+   
+    private $userRepo;
+ 
 
-    /**
-     * @Route("/dashboard/user", name="user")
-     */
-    public function start(): Response {
-        return $this->render('dashboard/dashboard.html.twig');
-    }
-
-
-    /**
-     * @Route("/dashboard/user/mail", name="getMailStat")
-     */
-    public function getMailStat(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $listUsers = $entityManager->getRepository(User::class)->getMailStat();
-        $listDomain = [];
-        $listDatas = [];
-        for ($i = 0; $i < count($listUsers); $i ++) {
-            array_push($listDomain, $listUsers[$i]["domaine"]);
-            array_push($listDatas, $listUsers[$i]["nb_domaine"]);
-        }
-
-        return $this->json([
-            "Labels"=> $listDomain,
-            "Data" => $listDatas
-        ]);
-
-    }
-
-    /**
-     * @Route("/dashboard/users", name="getNbUsers")
-     */
-    public function getNbUsers(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNbUsers();
+    public function __construct(
+        EntityManagerInterface $manager, 
+ 
+        userRepository $userRepo 
+   
+        )
+    {
+        $this->manager = $manager;
+ 
+        $this->userRepo = $userRepo;
     
-
-        return $this->render('dashboard/chartUser/index.html.twig', [
-            "nombre"=> $nbusers
-        ]);
-
     }
 
+
     /**
-     * @Route("/dashboard/users", name="getNbActiveUsers")
+     * @Route("/dashboard/admin/users", name="user")
+     * 
+     * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
+     * 
+     * @return Response
      */
-    public function getNbActiveUsers(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNbActiveUsers();
+    public function indexDashboard(): Response
+    {
+        $user_mail = $this->userRepo->getMailStat();
+        $user_nb_actif = $this->userRepo->getNbActiveUsers();
+        $user_zip = $this->userRepo->getNbUserZip();
+        $user_sexe = $this->userRepo->getNbUserSexe();
+        $user_age = $this->userRepo->getNbUserAge();
+        $user_wk = $this->userRepo->getNewUserWeek();
+        $user_day = $this->userRepo->getNewUserDay();
+        $user_mounth = $this->userRepo->getNewUserMounth();
+        $user_year = $this->userRepo->getNewUserYear();
     
+        
 
 
-
-        return $this->render('dashboard/chartUser/nbNewUser.html.twig', [
-            "nombreActif"=> $nbusers
+        return $this->render('dashboard/petsearch/user/index.html.twig', [
+            'user_mail' => $user_mail,
+            'user_nb_actif' => $user_nb_actif,
+            'user_zip' => $user_zip,
+            'user_sexe' => $user_sexe,
+            'user_age' => $user_age,
+            'user_wk' => $user_wk,
+            'user_day' => $user_day,
+            'user_mounth' => $user_mounth,
+            'user_year' => $user_year,
+      
         ]);
-
     }
-
-    /**
-     * @Route("/dashboard/user/nbzip", name="getNbUserZip")
-     */
-    public function getNbUserZip(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNbUserZip();
-    
-
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-
-    /**
-     * @Route("/dashboard/user/nbsexe", name="getNbUserSexe")
-     */
-    public function getNbUserSexe(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNbUserSexe();
-    
-
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-
-    /**
-     * @Route("/dashboard/user/nbbyage", name="getNbUserAge")
-     */
-    public function getNbUserAge(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNbUserAge();
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-    /**
-     * @Route("/dashboard/user/nbnewweek", name="getNewUserWeek")
-     */
-    public function getNewUserWeek(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNewUserWeek();
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-    /**
-     * @Route("/dashboard/user/nbnewday", name="getNewUserDay")
-     */
-    public function getNewUserDay(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNewUserDay();
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-    /**
-     * @Route("/dashboard/user/nbnewmounth", name="getNewUserMounth")
-     */
-    public function getNewUserMounth(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNewUserMounth();
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-    /**
-     * @Route("/dashboard/user/nbnewyear", name="getNewUserYear")
-     */
-    public function getNewUserYear(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $nbusers = $entityManager->getRepository(User::class)->getNewUserYear();
-        return $this->json([
-            "nombre"=> $nbusers
-        ]);
-
-    }
-
 }

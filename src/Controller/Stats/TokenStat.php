@@ -1,70 +1,60 @@
 <?php
+
 namespace App\Controller\Stats;
 
-use App\Entity\Secondary\Token;
-use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
+
 use App\Repository\TokenRepository;
 
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+class TokenStat extends AbstractController
+{
 
+    private $manager;
 
-class TokenStat extends AbstractController{
+   
+    private $tokenRepo;
+ 
+
+    public function __construct(
+        EntityManagerInterface $manager, 
+ 
+        TokenRepository $tokenRepo 
+   
+        )
+    {
+        $this->manager = $manager;
+ 
+        $this->tokenRepo = $tokenRepo;
+    
+    }
+
 
     /**
-     * @Route("/dashboard/token", name="token")
+     * @Route("/dashboard/admin/tokens", name="token")
+     * 
+     * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
+     * 
+     * @return Response
      */
-    public function start(): Response {
-        return $this->render('dashboard/dashboard.html.twig');
+    public function indexDashboard(): Response
+    {
+        $token_device = $this->tokenRepo->getDevices();
+        $token_nb_conn_device = $this->tokenRepo->getNbConnexionUserDevice();
+        $token_moy_con = $this->tokenRepo->getTempsMoyenConnexion();
+        
+
+
+        return $this->render('dashboard/petsearch/token/index.html.twig', [
+            'token_device' => $token_device,
+            'token_nb_conn_device' => $token_nb_conn_device,
+            'token_moy_con' => $token_moy_con,
+      
+        ]);
     }
-
-
- 
-    public function getNbConnexion(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $res = $entityManager->getRepository(Token::class)->getNbConnexion();
-
-
-        return $this->json([
-            "res"=> $res
-        ]);
-
-    }
-
-    public function getDevices(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $res = $entityManager->getRepository(Token::class)->getDevices();
-
-
-        return $this->json([
-            "res"=> $res
-        ]);
-
-    }  
-     public function getNbConnexionUserDevice(ORMEntityManagerInterface $entityManager): Response {
-        $entityManager = $this->getDoctrine()->getManager('customer');
-        $res = $entityManager->getRepository(Token::class)->getNbConnexionUserDevice();
-
-
-        return $this->json([
-            "res"=> $res
-        ]);
-
-   }
-
-   public function getTempsMoyenConnexion(ORMEntityManagerInterface $entityManager): Response {
-    $entityManager = $this->getDoctrine()->getManager('customer');
-    $res = $entityManager->getRepository(Token::class)->getTempsMoyenConnexion();
-
-
-    return $this->json([
-        "res"=> $res
-    ]);
-
-}
-
 }
