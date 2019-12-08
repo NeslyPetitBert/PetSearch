@@ -44,29 +44,31 @@ class UserStat extends AbstractController{
     }
 
     /**
-     * @Route("/dashboard/user/nombre", name="getNbUsers")
+     * @Route("/dashboard/users", name="getNbUsers")
      */
     public function getNbUsers(ORMEntityManagerInterface $entityManager): Response {
         $entityManager = $this->getDoctrine()->getManager('customer');
         $nbusers = $entityManager->getRepository(User::class)->getNbUsers();
     
 
-        return $this->json([
+        return $this->render('dashboard/chartUser/index.html.twig', [
             "nombre"=> $nbusers
         ]);
 
     }
 
     /**
-     * @Route("/dashboard/user/nbactif", name="getNbActiveUsers")
+     * @Route("/dashboard/users", name="getNbActiveUsers")
      */
     public function getNbActiveUsers(ORMEntityManagerInterface $entityManager): Response {
         $entityManager = $this->getDoctrine()->getManager('customer');
         $nbusers = $entityManager->getRepository(User::class)->getNbActiveUsers();
     
 
-        return $this->json([
-            "nombre"=> $nbusers
+
+
+        return $this->render('dashboard/chartUser/nbNewUser.html.twig', [
+            "nombreActif"=> $nbusers
         ]);
 
     }

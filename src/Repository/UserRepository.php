@@ -136,7 +136,8 @@ public function getNewUserWeek() {
     WEEKOFYEAR(createdAt) as wk,
     count(*)as nbUser
     FROM user WHERE createdAt < NOW()
-    group by year,wk ORDER by year,wk DESC';
+    group by year,wk ORDER by year,wk DESC
+    limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->execute(array('Values'));
     return $stmt->fetchAll();
@@ -152,7 +153,8 @@ public function getNewUserDay() {
     FROM user
     WHERE createdAt < NOW()
     group by y
-    ORDER by y ASC;';
+    ORDER by y DESC
+    limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->execute(array('Values'));
     return $stmt->fetchAll();
@@ -165,7 +167,8 @@ public function getNewUserMounth() {
     SELECT EXTRACT(YEAR_MONTH FROM createdAt) as y,
     count(*)as nbUser
     FROM user WHERE createdAt < NOW()
-    group by y ORDER by y DESC';
+    group by y ORDER by y DESC
+    limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->execute(array('Values'));
     return $stmt->fetchAll();
@@ -178,7 +181,8 @@ public function getNewUserYear() {
     SELECT EXTRACT(YEAR FROM createdAt) as year,
     count(*)as nbUser
     FROM user WHERE createdAt < NOW()
-    group by year ORDER by year DESC';
+    group by year ORDER by year DESC
+    limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->execute(array('Values'));
     return $stmt->fetchAll();
