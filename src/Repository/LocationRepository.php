@@ -48,6 +48,17 @@ class LocationRepository extends ServiceEntityRepository
     }
     */
 
+    public function getNbLocation() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = 'select count(*) as nombre_locations from location
+            where createdat < NOW()';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+
     public function getNewLocWeek() {
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();

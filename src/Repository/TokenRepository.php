@@ -48,7 +48,15 @@ class TokenRepository extends ServiceEntityRepository
     }
     */
 
-
+    public function getNbToken() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = 'select count(*) as nombre_tokens from token
+            where createdat < NOW()';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
 
     public function getNbConnexion() {
         $entityManager = $this->getEntityManager();

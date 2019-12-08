@@ -53,7 +53,7 @@ class UserRepository extends ServiceEntityRepository
 public function getNbUsers() {
     $entityManager = $this->getEntityManager();
     $conn = $entityManager->getConnection();
-    $sql = 'select count(*) as nombre from user
+    $sql = 'select count(*) as nombre_users from user
         where createdat < NOW()';
     $stmt = $conn->prepare($sql);
     $stmt->execute(array('Values'));

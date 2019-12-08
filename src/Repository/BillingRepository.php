@@ -63,7 +63,7 @@ class BillingRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
         $sql = '
-        SELECT count(*) as nb_abo
+        SELECT count(*) as nombre_billings
         from billing
         WHERE createdat < NOW()';
         $stmt = $conn->prepare($sql);

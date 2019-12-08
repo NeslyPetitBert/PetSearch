@@ -68,3 +68,5 @@ class LocationStat extends AbstractController{
         ]);
 
     }
+
+}

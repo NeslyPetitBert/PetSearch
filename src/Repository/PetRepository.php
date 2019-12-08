@@ -51,7 +51,7 @@ class PetRepository extends ServiceEntityRepository
     public function getNbPet() {
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
-        $sql = 'select count(*) as nombre from pet
+        $sql = 'select count(*) as nombre_pets from pet
             where createdat < NOW()';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array('Values'));
