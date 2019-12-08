@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class LocationStat extends AbstractController{
 
     /**
-     * @Route("/dashboard/location", name="dashboard")
+     * @Route("/dashboard/location", name="location")
      */
     public function start(): Response {
         return $this->render('dashboard/dashboard.html.twig');
@@ -68,3 +68,5 @@ class LocationStat extends AbstractController{
         ]);
 
     }
+
+}

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenStat extends AbstractController{
 
     /**
-     * @Route("/dashboard/token", name="dashboard")
+     * @Route("/dashboard/token", name="token")
      */
     public function start(): Response {
         return $this->render('dashboard/dashboard.html.twig');
