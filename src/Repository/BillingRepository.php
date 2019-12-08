@@ -47,4 +47,55 @@ class BillingRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function getSommeBilling() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT sum(amount) FROM billing WHERE createdAt < NOW() ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getNbBillAll() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT count(*) as nb_abo
+        from billing
+        WHERE createdat < NOW()';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getNbBillInactif() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT count(*) as nb_abo
+        from billing
+        WHERE user_iduser in( select iduser from user WHERE active=0)
+        and createdat < NOW()';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getNbBillActif() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT count(*) as nb_abo
+        from billing
+        WHERE user_iduser in( select iduser from user WHERE active=1)
+        and createdat < NOW()';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    
 }
