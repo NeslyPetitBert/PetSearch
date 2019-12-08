@@ -68,3 +68,5 @@ class BillingStat extends AbstractController{
         ]);
 
     }
+
+}
