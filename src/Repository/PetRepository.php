@@ -62,7 +62,7 @@ class PetRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
         $sql = '
-        SELECT sexe,count(*)
+        SELECT sexe,count(*) as pet_sexe
         from pet
         where createdat < NOW()
         group by sexe';

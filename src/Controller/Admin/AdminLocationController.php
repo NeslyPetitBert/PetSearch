@@ -38,13 +38,28 @@ class AdminLocationController extends AbstractController
     public function locationsAll(Request $request, PaginatorInterface $paginator) : Response
     {
 
+        // Les stats :
+        $loc_new_wk = $this->locationRepo->getNewLocWeek();
+        $loc_new_day = $this->locationRepo->getNewLocDay();
+        $loc_new_mounth = $this->locationRepo->getNewLocMounth();
+        $loc_new_year = $this->locationRepo->getNewLocYear();
+
+        // Le tableau des localisation :
         $locations = $paginator->paginate(
             $this->locRepo->findAll(),
             $request->query->getInt('page', 1),
             10);
 
         return $this->render('dashboard/petsearch/location/index.html.twig', [
+            // Le tableau des localisations : 
             'locations' => $locations,
+
+            // Les stats des locations :
+            'loc_new_wk' => $loc_new_wk,
+            'loc_new_day' => $loc_new_day,
+            'loc_new_mounth' => $loc_new_mounth,
+            'loc_new_year' => $loc_new_year,
+
         ]);
     }
 

@@ -53,7 +53,7 @@ class BillingRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
         $sql = '
-        SELECT sum(amount) FROM billing WHERE createdAt < NOW() ';
+        SELECT sum(amount) as somme_billings FROM billing WHERE createdAt < NOW() ';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array('Values'));
         return $stmt->fetchAll();
@@ -75,7 +75,7 @@ class BillingRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
         $sql = '
-        SELECT count(*) as nb_abo
+        SELECT count(*) as nb_abo_inactif
         from billing
         WHERE user_iduser in( select iduser from user WHERE active=0)
         and createdat < NOW()';
@@ -88,7 +88,7 @@ class BillingRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $conn = $entityManager->getConnection();
         $sql = '
-        SELECT count(*) as nb_abo
+        SELECT count(*) as nb_abo_actif
         from billing
         WHERE user_iduser in( select iduser from user WHERE active=1)
         and createdat < NOW()';

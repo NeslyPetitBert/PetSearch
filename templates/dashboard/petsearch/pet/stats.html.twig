@@ -1,0 +1,273 @@
+<div class="row">
+
+    {% for key, data in pet_nb_sexe %}
+        {% if data.pet_sexe %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Nombre total d'animaux par sexe</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.pet_sexe }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_nb_age %}
+        {% if data.nb %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre total d'animaux par âge</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nb }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dog fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+    
+    {% for key, data in pet_nb_type %}
+        {% if data.nb_pet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre total d'animaux par type</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nb_pet }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_nb_race %}
+        {% if data.nb_pet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre total d'animaux par race</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nb_pet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-globe-americas fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_new_wk %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre total de nouveaux animaux par semaine</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-coins fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+
+
+    
+
+
+
+
+        {% for key, data in pet_aqui_day %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Nombre total de nouveaux animaux par jour</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_new_mounth %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre total de nouveaux animaux par mois</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dog fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+    
+    {% for key, data in pet_new_year %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre total de nouveaux animaus par années</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_aqui_wk %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre total d'animaux acquis par semaines</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-globe-americas fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_aqui_day %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre total d'animaux acquis animaux par jour</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-coins fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_aqui_mounth %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Nombre total de nouveaux animaux par mois</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in pet_aqui_year %}
+        {% if data.nbPet %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre total de nouveaux animaux par ans</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nbPet }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dog fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+</div>
