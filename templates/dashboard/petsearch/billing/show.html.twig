@@ -1,0 +1,48 @@
+{% extends '/layouts/dashboard_layout.html.twig' %}
+
+{% block title %} Facture N° {{ billing.idbilling }} {% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Facture N° : <strong>{{ billing.idbilling }} / Client : {{ billing.userIduser.fullName }}<strong></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    Référence : <span class="span-card">{{ billing.idbilling }}</span><hr>
+                    Date facturation : <span class="span-card">{{ billing.datebilling ? billing.datebilling|date('d-m-Y H:i:s') : '' }}</span><hr>
+                    Montant : <span class="span-card">{{ billing.amount }}</span><hr>
+                    Date de création : <span class="span-card">{{ billing.createdat ? billing.createdat|date('d-m-Y H:i:s') : '' }}</span><hr>
+                    Client concerné : <span class="span-card">{{  billing.userIduser.fullName }}</span><hr>
+                    <br><br>
+                    <a href="{{ path('billings_index') }}" class="btn btn-primary">
+                                Revenir à la liste des factures
+                    </a>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('billing_register') }}" class="btn btn-success">Créer</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('billing_edit', {'idbilling': billing.idbilling}) }}" class="btn btn-primary">Modifier</a>
+                    </div>
+                    <div style="display: inline-flex">
+                        <a href="{{ path('billing_delete', {'idbilling': billing.idbilling}) }}" class="btn btn-danger"
+                            onclick="return confirm((`Êtes-vous sûre de vouloir supprimer la facture numéro : {{ billing.idbilling }} ?`))">Supprimer</a>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

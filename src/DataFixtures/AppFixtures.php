@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
         $roles =['ROLE_ADMIN'];
 
 
-        for ($i=1; $i <=20 ; $i++) {
+        for ($i=1; $i <=30 ; $i++) {
             $adminUser = new AdminUser();
             $password = $this->encoder->encodePassword($adminUser, 'password');
             $adminUser->setFirstname($faker->firstName)

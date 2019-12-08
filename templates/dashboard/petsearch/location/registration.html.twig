@@ -1,6 +1,6 @@
 {% extends "/layouts/dashboard_layout.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-{% block title %}Ajouter un utilisateur{% endblock %}
+{% block title %}Ajouter une nouvelle localisation{% endblock %}
 
 {% block body %}
 <!-- Begin Page Content -->
@@ -13,7 +13,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Ajouter un nouvel utilisateur</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Ajouter une nouvelle localisation</h6>
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
@@ -21,29 +21,20 @@
                         {{ form_start(form) }}
 
                             <div class="wrap-input100">
-                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.lon) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.lat) }}
                             </div>
                             <div class="wrap-input100">
-                                {{ form_row(form.email) }}
-                            </div>
-                            <div class="wrap-input100">
-                                {{ form_row(form.hash) }}
-                            </div>
-                            <div class="wrap-input100">
-                                {{ form_row(form.passwordConfirm) }}
-                            </div>
-                            <div class="wrap-input100">
-                                {{ form_row(form.roles) }}
+                                {{ form_row(form.petIdpet) }}
                             </div>
                             <div class="form-group">
                                 {{ form_rest(form) }}
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Créer</button>
-                            <a href="{{ path('admin_accounts_index') }}" class="btn btn-primary">
-                                Revenir à la liste des utilisateurs
+                            <a href="{{ path('locations_index') }}" class="btn btn-primary">
+                                Touites les localisations
                             </a>
                             <button class="btn btn-light" type="reset">Annuler</button>
                             </form>

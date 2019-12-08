@@ -135,10 +135,16 @@ class User
         $this->tokens = new ArrayCollection();
     }
 
+    public function getFullName(){
+        return "{$this->firstname} {$this->lastname}";
+    }
+
     public function getiduser(): ?int
     {
         return $this->iduser;
     }
+
+
 
     public function getFirstname(): ?string
     {

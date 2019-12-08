@@ -52,7 +52,7 @@ class Billing
      */
     private $userIduser;
 
-    public function getidbilling(): ?int
+    public function getIdbilling(): ?int
     {
         return $this->idbilling;
     }
