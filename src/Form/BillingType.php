@@ -3,12 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Secondary\Billing;
+use Doctrine\DBAL\Types\FloatType;
 use App\Form\FormConfig\FormConfig;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Doctrine\DBAL\Types\FloatType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class BillingType extends FormConfig
@@ -16,7 +16,7 @@ class BillingType extends FormConfig
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('datebilling', DateTimeType::class, [
+        ->add('datebilling', DateType::class, [
             'widget' => 'single_text',
             'html5' => false
         ])

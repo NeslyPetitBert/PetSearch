@@ -1,6 +1,6 @@
 {% extends '/layouts/dashboard_layout.html.twig' %}
 
-{% block title %} | Animal : {{ pet.name }} {% endblock %}
+{% block title %} Animal : {{ pet.name }} {% endblock %}
 
 {% block body %}
 <!-- Begin Page Content -->
@@ -36,40 +36,44 @@
                     Propriétaire : <span class="span-card">{{ pet.userIduser.fullname }}</span><hr>
 
                     Nombre de Localisations : <span class="span-card"> {{ pet.locations|length }} </span><br><br>
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
-						<thead style="color:#005582 !important;">
-                            <tr>
-							<th>#</th>
-							<th>Latitudes</th>
-							<th>Longitude</th>
-							<th>Date de création</th>
-                            </tr>
-                        </thead>
-                        <tfoot style="color:#005582 !important;">
-                            <tr>
-							<th>#</th>
-							<th>Latitudes</th>
-							<th>Longitude</th>
-							<th>Date de création</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-							{% for location in pet.locations %}
-                                {% if loop.index is divisible by(2) %}
-                                    <tr style="background-color:#f4f3f6 !important;">
-                                    {% else %}
-                                        <tr style="background-color:#fbf9ff !important;">
-                                        {% endif %}
-                                        {% if pet.idpet == location.petIdpet.idpet %}
-                                            <td>{{ location.idlocation }}</td>
-                                            <td>{{ location.lat }}</td>
-                                            <td>{{ location.lon }}</td>
-                                            <td>{{ location.createdat ? location.createdat|date('d-m-Y H:i:s') : '' }}</td>
-                                        {% endif %}
-                                    </tr>
-							{% endfor %}
-                        </tbody>
-                    </table>
+                    {% if pet.locations|length > 0 %}
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
+                            <thead style="color:#005582 !important;">
+                                <tr>
+                                <th>#</th>
+                                <th>Latitudes</th>
+                                <th>Longitude</th>
+                                <th>Date de création</th>
+                                </tr>
+                            </thead>
+                            <tfoot style="color:#005582 !important;">
+                                <tr>
+                                <th>#</th>
+                                <th>Latitudes</th>
+                                <th>Longitude</th>
+                                <th>Date de création</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for location in pet.locations %}
+                                    {% if loop.index is divisible by(2) %}
+                                        <tr style="background-color:#f4f3f6 !important;">
+                                        {% else %}
+                                            <tr style="background-color:#fbf9ff !important;">
+                                            {% endif %}
+                                            {% if pet.idpet == location.petIdpet.idpet %}
+                                                <td>{{ location.idlocation }}</td>
+                                                <td>{{ location.lat }}</td>
+                                                <td>{{ location.lon }}</td>
+                                                <td>{{ location.createdat ? location.createdat|date('d-m-Y H:i:s') : '' }}</td>
+                                            {% endif %}
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                            Aucun enregistrement n'a été trouvé
+                    {% endif %}
                     <br><br>
                     <a href="{{ path('pets_index') }}" class="btn btn-primary">
                                 Revenir à la liste des animaux

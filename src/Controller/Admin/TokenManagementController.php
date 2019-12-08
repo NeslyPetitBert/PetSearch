@@ -18,14 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class TokenManagementController extends AbstractController
 {
-
-    private $manager;
-
     private $tokRepo;
 
-    public function __construct(EntityManagerInterface $manager, TokenRepository $tokRepo)
+    public function __construct(TokenRepository $tokRepo)
     {
-        $this->manager = $manager;
         $this->tokRepo = $tokRepo;
     }
 
@@ -37,6 +33,9 @@ class TokenManagementController extends AbstractController
      * 
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param Request $request
+     * 
+     * @param PaginatorInterface $paginator
      */
     public function tokenAll(Request $request, PaginatorInterface $paginator) : Response
     {
@@ -75,13 +74,17 @@ class TokenManagementController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
+     * 
      * @param Token $token
      * @return Response
      */
-    public function tokenDelete(Token $token): Response
+    public function tokenDelete(Token $token, EntityManagerInterface $emi): Response
     {
-        $this->manager->remove($token);
-        $this->manager->flush();
+        $emi = $this->getDoctrine()->getManager('customer');
+
+        $emi->remove($token);
+        $emi->flush();
 
         $this->addFlash('danger', "Token supprimé avec succès");
 

@@ -7,7 +7,7 @@
 	<div class="container-fluid">
 
 	  <!-- Page Heading -->
-	  <p class="mb-4"><a href="{{ path('admin_account_new')}}" class="btn btn-success">Ajouter un nouvel client</a></p>
+	  <p class="mb-4"><a href="{{ path('account_register')}}" class="btn btn-success">Ajouter un nouvel client</a></p>
 	  <!-- DataTales Example -->
 	  <div class="card shadow mb-4">
 			<div class="card-header py-3">
@@ -15,60 +15,63 @@
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
-						<thead style="color:#005582 !important;">
-							<tr>
-							<th>#</th>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Email</th>
-							<th>Rue</th>
-							<th>Code postal</th>
-                            <th>Ville</th>
-                            <th>Pays</th>
-                            <th>Anniversaire</th>
-                            <th>Sexe</th>
-                            <th>Statut</th>
-                            <th>Date de création</th>
-                            <th>Date de modification</th>
-							<th>Modifier</th>
-							<th>Supprimer</th>
-							</tr>
-						</thead>
-						<tfoot style="color:#005582 !important;">
-							<tr>
-							<th>#</th>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Email</th>
-							<th>Rue</th>
-							<th>Code postal</th>
-                            <th>Ville</th>
-                            <th>Pays</th>
-                            <th>Anniversaire</th>
-                            <th>Sexe</th>
-                            <th>Statut</th>
-                            <th>Date de création</th>
-                            <th>Date de modification</th>
-							<th>Modifier</th>
-							<th>Supprimer</th>
-							</tr>
-						</tfoot>
-						<tbody>
-							{% for user in users %}
-							{% if loop.index is divisible by(2) %}
-								<tr style="background-color:#f4f3f6 !important;">
-									{% include "/dashboard/petsearch/user/account/users_array.html.twig" %}
+					{% if users|length > 0 %}
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" margin="auto">
+							<thead style="color:#005582 !important;">
+								<tr>
+								<th>#</th>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Email</th>
+								<th>Rue</th>
+								<th>Code postal</th>
+								<th>Ville</th>
+								<th>Pays</th>
+								<th>Anniversaire</th>
+								<th>Sexe</th>
+								<th>Statut</th>
+								<th>Date de création</th>
+								<th>Date de modification</th>
+								<th>Modifier</th>
+								<th>Supprimer</th>
 								</tr>
-								{% else %}
-									<tr style="background-color:#fbf9ff !important;">
-									{% include "/dashboard/petsearch/user/account/users_array.html.twig" %}
+							</thead>
+							<tfoot style="color:#005582 !important;">
+								<tr>
+								<th>#</th>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Email</th>
+								<th>Rue</th>
+								<th>Code postal</th>
+								<th>Ville</th>
+								<th>Pays</th>
+								<th>Anniversaire</th>
+								<th>Sexe</th>
+								<th>Statut</th>
+								<th>Date de création</th>
+								<th>Date de modification</th>
+								<th>Modifier</th>
+								<th>Supprimer</th>
 								</tr>
-								{% endif %}
-							{% endfor %}
-						</tbody>
-					</table>
-
+							</tfoot>
+							<tbody>
+								{% for user in users %}
+								{% if loop.index is divisible by(2) %}
+									<tr style="background-color:#f4f3f6 !important;">
+										{% include "/dashboard/petsearch/user/account/users_array.html.twig" %}
+									</tr>
+									{% else %}
+										<tr style="background-color:#fbf9ff !important;">
+										{% include "/dashboard/petsearch/user/account/users_array.html.twig" %}
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+							Aucun enregistrement n'a été trouvé
+					{% endif %}
 					{% set countRows = users.getTotalItemCount %}
 					{% set entity = users %}
 

@@ -41,6 +41,11 @@ class PetType extends FormConfig
             'widget' => 'single_text',
             'html5' => false
         ])
+
+        // si l'authentification était gérée pour le Admin User, l'animal serait automatiquement assocé à utilsateur connecté dans l'application, pas besoin de proposer une liste déroulante.
+        // Mais l'authentification n'étant pas gérée pour le User, mais pour AdminUser, il ne sera donc jamais appelé, le choix de l'utilisateur est proposer via une liste
+        // déroulante configurer ici dans le FormType et dans le twig add et update.
+
         ->add('userIduser', EntityType::class, array(
             'class' => 'App\Entity\Secondary\User',
             'label' => 'Le nom du propriétaire',

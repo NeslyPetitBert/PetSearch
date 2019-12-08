@@ -20,13 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminPetController extends AbstractController
 {
 
-    private $manager;
-
     private $petRepo;
 
-    public function __construct(EntityManagerInterface $manager, PetRepository $petRepo)
+    public function __construct(PetRepository $petRepo)
     {
-        $this->manager = $manager;
         $this->petRepo = $petRepo;
     }
     
@@ -60,13 +57,15 @@ class AdminPetController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function billingCreate(Request $request): Response
+    public function billingCreate(Request $request, EntityManagerInterface $emi): Response
     {
-        
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $pet = new Pet();
         
         $form = $this->createForm(PetType::class, $pet);
@@ -75,16 +74,22 @@ class AdminPetController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid()){
 
-            $user =  $this->getUser();
+            // Avec les deux lignes suivantes, l'animal serait automatiquement assocé à utilsateur connecté dans l'application, pas besoin de proposer une liste déroulante.
+            // Mais l'authentification n'étant pas gérée pour le User, mais pour AdminUser, il ne sera donc jamais appelé, le choix de l'utilisateur est proposer via une liste
+            // déroulante configurer dans le FormType et dans le twig add et update.
 
-            $pet->setUserIduser($user);
+            // $user =  $this->getUser();
+
+            //$pet->setUserIduser($user);
             
-            $this->manager->persist($pet);
-            $this->manager->flush();
+            $emi->persist($pet);
+            $emi->flush();
 
             $this->addFlash('success', "L'animal a été créé avec succès");
 
-            return $this->redirectToRoute('pets_index');
+            return $this->redirectToRoute('admin_pet_show', [
+                'idpet' => $pet->getIdpet(),
+            ]);
 
         }
 
@@ -118,24 +123,27 @@ class AdminPetController extends AbstractController
      * 
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      *
+     * @param EntityManagerInterface $emi
      * @param Pet $pet
      * @param Request $request
      * @return Response
      */
-    public function petEdit(Request $request, Pet $pet): Response
+    public function petEdit(Request $request, Pet $pet, EntityManagerInterface $emi): Response
     {
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $form =$this->createForm(PetType::class, $pet);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($pet);
-            $this->manager->flush();
+            $emi->persist($pet);
+            $emi->flush();
 
             $this->addFlash('success', "L'animal a été modifié avec succès");
 
             return $this->redirectToRoute('admin_pet_show', [
-                'id' => $pet->getIdpet(),
+                'idpet' => $pet->getIdpet(),
             ]);
 
         }
@@ -153,17 +161,20 @@ class AdminPetController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param Pet $pet
      * @return Response
      */
-    public function petDelete(Pet $pet): Response
+    public function petDelete(Pet $pet, EntityManagerInterface $emi): Response
     {
-        $this->manager->remove($pet);
-        $this->manager->flush();
+        $emi = $this->getDoctrine()->getManager('customer');
+
+        $emi->remove($pet);
+        $emi->flush();
 
         $this->addFlash('danger', "Animal supprimé avec succès");
 
-        return $this->redirectToRoute('admin_pets_index');
+        return $this->redirectToRoute('pets_index');
     }
 
 }
