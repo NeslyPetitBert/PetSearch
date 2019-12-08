@@ -1,0 +1,46 @@
+{% extends '/layouts/dashboard_layout.html.twig' %}
+
+{% block title %} | Espace personnel {{ adminUser.fullName }} {% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Bienvenue : <strong>{{ adminUser.fullName }}</strong>, ici vous avez la possibilité de consulter, modifier ou supprimer votre profil.</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <h5>Vos informations personnelles : </h5><br>
+
+                    Votre référence : <span class="span-card">{{ adminUser.id }}</span><hr>
+                    Prénom : <span class="span-card">{{  adminUser.firstName }}</span><hr>
+                    Nom : <span class="span-card">{{ adminUser.lastName }}</span><hr>
+                    Email : <span class="span-card">{{  adminUser.email }}</span><hr>
+
+
+                    {% if adminUser is same as (app.user) %}
+                        <br><br>
+                        <div style="display: inline-flex">
+                            <a href="{{ path('admin_account_profile') }}" class="btn btn-primary">Modifier votre profil</a>
+                        </div>
+                        <div style="display: inline-flex">
+                            <a href="{{ path('account_password') }}" class="btn btn-primary">Modifier votre mot de passe</a>
+                        </div>
+                    {% endif %}
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

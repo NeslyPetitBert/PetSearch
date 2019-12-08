@@ -22,9 +22,9 @@
                     Nom : <span class="span-card">{{ adminUser.lastName }}</span><hr>
                     Email : <span class="span-card">{{  adminUser.email }}</span><hr>
                     <br><br>
-                    <div style="display: inline-flex">
-                        <a href="{{ path('admin_accounts_index') }}" class="btn btn-light">La liste des utilisateurs</a>
-                    </div>
+                    <a href="{{ path('admin_accounts_index') }}" class="btn btn-primary">
+                                Revenir à la liste des utilisateurs
+                    </a>
                     <div style="display: inline-flex">
                         <a href="{{ path('admin_account_new') }}" class="btn btn-success">Créer</a>
                     </div>

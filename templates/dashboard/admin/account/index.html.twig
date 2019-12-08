@@ -1,10 +1,6 @@
 {% extends "/layouts/dashboard_layout.html.twig" %}
 
 {% block title %}Les administrateurs{% endblock %}
-{% block stylesheets %}
-	<!-- Custom styles for this page -->
-	<link href="{{ asset( 'assets/admin/dashboard/vendor/datatables/dataTables.bootstrap4.min.css' ) }}" rel="stylesheet">
-{% endblock %}
         
 {% block body %}
 
@@ -20,7 +16,7 @@
 			<div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-						<thead>
+						<thead style="color:#005582 !important;">
 							<tr>
 							<th>#</th>
 							<th>Nom</th>
@@ -32,7 +28,7 @@
 							<th>Supprimer</th>
 							</tr>
 						</thead>
-						<tfoot>
+						<tfoot style="color:#005582 !important;">
 							<tr>
 							<th>#</th>
 							<th>Nom</th>
@@ -46,49 +42,25 @@
 						</tfoot>
 						<tbody>
 							{% for adminUser in adminUsers %}
-								<tr>
-									<td>{{ adminUser.id }}</td>
-									<td>{{ adminUser.firstName }}</td>
-									<td>{{ adminUser.lastName }}</td>
-									<td>{{ adminUser.email }}</td>
-									<td>
-										{% for role in adminUser.roles %}
-											{{ role }}<br>
-											{% else %}
-											<p>Rôle absent</p>
-										{% endfor %} 
-									</td>
-									<td>
-										<a href="{{ path('admin_account_show', {'id': adminUser.id}) }}" class="btn btn-inverse-secondary">
-											<i class="fa fa-eye"></i>
-										</a>
-									</td>
-									<td>
-										<a href="{{ path('admin_account_edit', {'id': adminUser.id}) }}" class="btn btn-inverse-primary">
-											<i class="fa fa-edit"></i>
-										</a>
-									</td>
-									<td>
-										<a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-inverse-danger"
-											onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'administrateur : {{ adminUser.fullname }} ?`))">
-											<i class="fa fa-trash"></i>
-										</a>
-									</td>
-								</tr>
+								{% if loop.index is divisible by(2) %}
+									<tr style="background-color:#f4f3f6 !important;">
+										{% include "/dashboard/admin/account/users_admin_array.html.twig" %}
+									</tr>
+									{% else %}
+										<tr style="background-color:#fbf9ff !important;">
+										{% include "/dashboard/admin/account/users_admin_array.html.twig" %}
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
+					{% set countRows = adminUsers.getTotalItemCount %}
+					{% set entity = adminUsers %}
+
+					{% include "/dashboard/partials/dashboard_partials/pagination.html.twig" %}
+
 				</div>
 			</div>
 	  	</div>
 	</div>
-{% endblock %}
-
-{% block javascripts %}
-	<!-- Page level plugins -->
-	<script src="{{ asset( 'assets/admin/dashboard/vendor/datatables/jquery.dataTables.min.js' ) }}"></script>
-	<script src="{{ asset( 'assets/admin/dashboard/vendor/datatables/dataTables.bootstrap4.min.js' ) }}"></script>
-
-	<!-- Page level custom scripts -->
-	<script src="{{ asset( 'assets/admin/dashboard/js/demo/datatables-demo.js' ) }}"></script>
 {% endblock %}

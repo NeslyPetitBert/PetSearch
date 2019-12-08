@@ -1,0 +1,67 @@
+{% extends "/layouts/dashboard_layout.html.twig" %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block title %}Modification de l'animal : {{ pet.name }}{% endblock %}
+
+{% block body %}
+<!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+
+                <!-- Dropdown Card Example -->
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Modification de l'animal : {{ pet.name }}</strong></h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        {{ form_start(form) }}
+
+                            <div class="wrap-input100">
+                                {{ form_row(form.name) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.type) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.race) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.sexe) }}
+                            </div>
+                            <div class="wrap-input100">
+                                {{ form_row(form.userIduser) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_rest(form) }}
+                            </div>
+                            <button type="submit" class="btn btn-success mr-2">Enregistrer les modifications</button>
+                            <button class="btn btn-dark" type="reset">Annuler</button>
+                            <a href="{{ path('pet_delete', {'idpet': pet.idpet}) }}" class="btn btn-danger"
+                                onclick="return confirm((`Êtes-vous sûre de vouloir supprimer cet animal : {{ pet.name }} ?`))">
+                                Supprimer cet animal
+                            </a>
+                            <hr>
+                            <a href="{{ path('pets_index') }}" class="btn btn-primary">
+                                Revenir à la liste des animaux
+                            </a>
+                            <a href="{{ path('pet_register')}}" class="btn btn-success">
+                                Créer un nouvel animal
+                            </a>
+                            <a href="{{ path('admin_pet_show', {'idpet': pet.idpet}) }}" class="btn btn-primary">
+                                Revenir sur la fiche de cet animal
+                            </a>
+
+                            
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+{% endblock %}

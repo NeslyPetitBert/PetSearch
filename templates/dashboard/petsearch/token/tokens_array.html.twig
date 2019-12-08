@@ -1,0 +1,22 @@
+<td>
+<a href="{{ path('admin_user_account_show', {'idtoken': token.idtoken}) }}" class="btn btn-inverse-secondary">
+    {{ token.idtoken }}	
+</a>
+</td>
+<td>{{ token.type }}</td>
+<td>{{ token.decive }}</td>
+<td>{{ token.lat }}</td>
+<td>{{ token.lon }}</td>
+<td>{{ token.createdat ? token.createdat|date('d-m-Y H:i:s') : '' }}</td>
+<td>{{ token.userIduser.fullname }}</td>
+<td>
+    <a href="{{ path('admin_token_show', {'idtoken': token.idtoken}) }}" class="btn btn-inverse-primary">
+        <i class="fa fa-edit"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('token_delete', {'idtoken': token.idtoken}) }}" class="btn btn-inverse-danger"
+        onclick="return confirm((`Êtes-vous sûre de vouloir supprimer ce token ?`))">
+        <i class="fa fa-trash"></i>
+    </a>
+</td>

@@ -1,0 +1,66 @@
+{% extends "/layouts/dashboard_layout.html.twig" %}
+
+{% block title %}Les administrateurs{% endblock %}
+        
+{% block body %}
+
+	<div class="container-fluid">
+
+	  <!-- Page Heading -->
+	  <p class="mb-4"><a href="{{ path('billing_register')}}" class="btn btn-success">Ajouter une nouvelle facture</a></p>
+	  <!-- DataTales Example -->
+	  <div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">Tables des administrateurs</h6>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead style="color:#005582 !important;">
+							<tr>
+							<th>#</th>
+							<th>Date de la facture</th>
+							<th>Montant</th>
+							<th>Date de création</th>
+							<th>Client</th>
+							<th>Voir</th>
+							<th>Modifier</th>
+							<th>Supprimer</th>
+							</tr>
+						</thead>
+						<tfoot style="color:#005582 !important;">
+							<tr>
+							<th>#</th>
+							<th>Date de la facture</th>
+							<th>Montant</th>
+							<th>Date de création</th>
+							<th>Client</th>
+							<th>Voir</th>
+							<th>Modifier</th>
+							<th>Supprimer</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							{% for billing in billings %}
+								{% if loop.index is divisible by(2) %}
+									<tr style="background-color:#f4f3f6 !important;">
+										{% include "/dashboard/petsearch/billing/billings_admin_array.html.twig" %}
+									</tr>
+									{% else %}
+										<tr style="background-color:#fbf9ff !important;">
+										{% include "/dashboard/petsearch/billing/billings_admin_array.html.twig" %}
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+					{% set countRows = billings.getTotalItemCount %}
+					{% set entity = billings %}
+
+					{% include "/dashboard/partials/dashboard_partials/pagination.html.twig" %}
+
+				</div>
+			</div>
+	  	</div>
+	</div>
+{% endblock %}

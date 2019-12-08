@@ -47,4 +47,68 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getNewLocWeek() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT EXTRACT(YEAR FROM createdAt) as year,
+        WEEKOFYEAR(createdAt) as wk,
+        count(*)as nbloc
+        FROM location WHERE createdAt < NOW()
+        group by year,wk ORDER by year,wk DESC
+        limit 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getNewLocDay() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT
+        CAST( createdAt AS date) as y,
+        count(*)as nbLoc
+        FROM location
+        WHERE createdAt < NOW()
+        group by y
+        ORDER by y DESC
+        limit 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+    
+    public function getNewLocMounth() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT EXTRACT(YEAR_MONTH FROM createdAt) as y,
+        count(*)as nbLoc
+        FROM location WHERE createdAt < NOW()
+        group by y ORDER by y DESC
+        limit 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+    
+    public function getNewLocYear() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        SELECT EXTRACT(YEAR FROM createdAt) as year,
+        count(*)as nbLoc
+        FROM Location WHERE createdAt < NOW()
+        group by year ORDER by year DESC
+        limit 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+
+
+
 }

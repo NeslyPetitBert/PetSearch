@@ -1,0 +1,27 @@
+<td>{{ adminUser.id }}</td>
+<td>{{ adminUser.firstName }}</td>
+<td>{{ adminUser.lastName }}</td>
+<td>{{ adminUser.email }}</td>
+<td>
+    {% for role in adminUser.roles %}
+        {{ role }}<br>
+        {% else %}
+        <p>Rôle absent</p>
+    {% endfor %} 
+</td>
+<td>
+    <a href="{{ path('admin_account_show', {'id': adminUser.id}) }}" class="btn btn-inverse-secondary">
+        <i class="fa fa-eye"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('admin_account_edit', {'id': adminUser.id}) }}" class="btn btn-inverse-primary">
+        <i class="fa fa-edit"></i>
+    </a>
+</td>
+<td>
+    <a href="{{ path('admin_account_delete', {'id': adminUser.id}) }}" class="btn btn-inverse-danger"
+        onclick="return confirm((`Êtes-vous sûre de vouloir supprimer l'administrateur : {{ adminUser.fullname }} ?`))">
+        <i class="fa fa-trash"></i>
+    </a>
+</td>

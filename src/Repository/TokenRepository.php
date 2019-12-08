@@ -47,4 +47,76 @@ class TokenRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+
+    public function getNbConnexion() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        CAST( createdAt AS date) as y,
+        count(*)as nb
+        FROM token
+        WHERE createdAt < NOW()
+        group by y
+        ORDER by y DESC
+        limit 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getDevices() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        select decive as device,count(*) as nb FROM token where createdAt < now() group by decive ORDER by nb DESC';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    
+    public function getNbConnexionUserDevice() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        select count(*) as nb,user_iduser, decive
+        FROM token
+        where createdAt < now()
+        and type="Bearer"
+        group by user_iduser,decive
+        ORDER by nb DESC
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+    public function getTempsMoyenConnexion() {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+        $sql = '
+        select sec_to_time(
+             avg(
+                  timediff(
+                       now(),(
+                            select t.createdAt 
+                            from token t 
+                            where t.type="Bearer" 
+                            group by t.user_iduser 
+                            order by t.createdAt ASC
+                             limit 1)
+                             )
+                     )
+            ) 
+        from token
+
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('Values'));
+        return $stmt->fetchAll();
+    }
+
+
 }
