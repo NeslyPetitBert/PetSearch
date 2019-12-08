@@ -3,11 +3,14 @@
 namespace App\Entity\Secondary;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billing
  *
  * @ORM\Entity(repositoryClass="App\Repository\BillingRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="billing", indexes={@ORM\Index(name="fk_billing_user1_idx", columns={"user_iduser"})})
  */
 class Billing
@@ -40,7 +43,7 @@ class Billing
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdat = 'CURRENT_TIMESTAMP';
+    private $createdat;
 
     //@var \User
     /**
@@ -51,6 +54,19 @@ class Billing
      * })
      */
     private $userIduser;
+
+    /**
+     * Callback appelé à chaque fois qu'on créé une réservation
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @throws \Exception
+     */
+    public function prePersist(){
+        if(empty($this->createdat)){
+            $this->createdat = new \DateTime();
+        }
+    }
 
     public function getIdbilling(): ?int
     {

@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Main\AdminUser;
+use App\Entity\Secondary\User;
 use App\Form\FormConfig\FormConfig;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends FormConfig
 {
@@ -19,11 +20,11 @@ class RegistrationType extends FormConfig
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName',
+            ->add('firstname',
                 TextType::class,
                 $this->getFormConf(true, "Prénom", "Votre prénom")
             )
-            ->add('lastName',
+            ->add('lastname',
                 TextType::class,
                 $this->getFormConf(true, "Nom", "Votre nom de famille")
             )
@@ -32,7 +33,7 @@ class RegistrationType extends FormConfig
                 $this->getFormConf(true, "Email", "Votre adresse email")
             )
             ->add('password',
-                TextType::class,
+                PasswordType::class,
                 $this->getFormConf(true, "Mot de passe", "Tapez votre mot de passe")
             )
             ->add('street',
@@ -40,7 +41,7 @@ class RegistrationType extends FormConfig
                 $this->getFormConf(true, "Rue", "Le nom de votre rue")
             )
             ->add('zip',
-                PasswordType::class,
+                TextType::class,
                 $this->getFormConf(true, "Code postal", "Le code postal de votre ville")
             )
             ->add('city',
@@ -51,6 +52,10 @@ class RegistrationType extends FormConfig
                 TextType::class,
                 $this->getFormConf(true, "Pays", "Entrez le nom de votre pays")
             )
+            ->add('birthday', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false
+            ])
             ->add('sexe',
                 TextType::class,
                 $this->getFormConf(true, "Sexe", "Le nom de votre rue")
@@ -61,7 +66,7 @@ class RegistrationType extends FormConfig
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AdminUser::class,
+            'data_class' => User::class,
         ]);
     }
 }

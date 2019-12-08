@@ -19,14 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class AdminLocationController extends AbstractController
 {
-
-    private $manager;
-
     private $locRepo;
 
-    public function __construct(EntityManagerInterface $manager, LocationRepository $locRepo)
+    public function __construct(LocationRepository $locRepo)
     {
-        $this->manager = $manager;
         $this->locRepo = $locRepo;
     }
     
@@ -67,6 +63,8 @@ class AdminLocationController extends AbstractController
     public function locationCreate(Request $request): Response
     {
         
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $location = new Location();
         
         $form = $this->createForm(LocationType::class, $location);
@@ -74,12 +72,14 @@ class AdminLocationController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($location);
-            $this->manager->flush();
+            $emi->persist($location);
+            $emi->flush();
 
             $this->addFlash('success', "La localisation a été créée avec succès");
 
-            return $this->redirectToRoute('locations_index');
+            return $this->redirectToRoute('admin_location_show', [
+                'idlocation' => $location->getIdlocation(),
+            ]);
 
         }
 
@@ -119,18 +119,20 @@ class AdminLocationController extends AbstractController
      */
     public function locationEdit(Request $request, Location $location): Response
     {
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $form =$this->createForm(LocationType::class, $location);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($location);
-            $this->manager->flush();
+            $emi->persist($location);
+            $emi->flush();
 
             $this->addFlash('success', "La localisation a été modifiée avec succès");
 
-            return $this->redirectToRoute('admin_pet_show', [
-                'id' => $location->getIdlocation(),
+            return $this->redirectToRoute('admin_location_show', [
+                'idlocation' => $location->getIdlocation(),
             ]);
 
         }
@@ -153,12 +155,14 @@ class AdminLocationController extends AbstractController
      */
     public function locationDelete(Location $location): Response
     {
-        $this->manager->remove($location);
-        $this->manager->flush();
+        $emi = $this->getDoctrine()->getManager('customer');
+
+        $emi->remove($location);
+        $emi->flush();
 
         $this->addFlash('danger', "Localisation supprimée avec succès");
 
-        return $this->redirectToRoute('admin_locations_index');
+        return $this->redirectToRoute('locations_index');
     }
 
 }

@@ -23,13 +23,13 @@
                     lat : <span class="span-card">{{  token.lat }}</span><hr>
                     lon : <span class="span-card">{{ token.lon }}</span><hr> 
                     Date de création : <span>{{ token.createdat ? token.createdat|date('d-m-Y H:i:s') : '' }}</span> <hr>
-                    Utilisateur : <span class="span-card">{{ token.user.fullname }}</span><hr>
+                    Utilisateur : <span class="span-card">{{ token.userIduser.fullname }}</span><hr>
                     <br><br>
                     <a href="{{ path('tokens_index') }}" class="btn btn-primary">
                                 Revenir à la liste des tokens
                     </a>
                     <div style="display: inline-flex">
-                        <a href="{{ path('token_delete', {'idetoken': token.idtoken }) }}" class="btn btn-danger"
+                        <a href="{{ path('token_delete', {'idtoken': token.idtoken }) }}" class="btn btn-danger"
                             onclick="return confirm((`Êtes-vous sûre de vouloir supprimer ce token ?`))">Supprimer</a>
                     </div>
                 </div>

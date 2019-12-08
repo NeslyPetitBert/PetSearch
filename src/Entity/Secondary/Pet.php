@@ -5,12 +5,15 @@ namespace App\Entity\Secondary;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pet
  *
  * @ORM\Entity()
  * @ORM\Entity(repositoryClass="App\Repository\PetRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="pet", indexes={@ORM\Index(name="fk_pet_user1_idx", columns={"user_iduser"})})
  */
 class Pet
@@ -25,6 +28,13 @@ class Pet
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le nom de votre animal pour continuer"
+     * )
      * @ORM\Column(name="name", type="string", length=45, nullable=false, options={"default"="Rex"})
      */
     private $name = 'Rex';
@@ -32,6 +42,14 @@ class Pet
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le type d'animal pour continuer"
+     * )
+     * 
      * @ORM\Column(name="type", type="string", length=60, nullable=false, options={"default"="Chien"})
      */
     private $type = 'Chien';
@@ -39,6 +57,13 @@ class Pet
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez la race de l'animal pour continuer"
+     * )
      * @ORM\Column(name="race", type="string", length=50, nullable=false)
      */
     private $race;
@@ -53,6 +78,14 @@ class Pet
     /**
      * @var string
      *
+     * @Assert\Type(
+     *     "string",
+     *     message="Cette valeur n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *     message="Merci d'indiquez le sex de l'animal pour continuer"
+     * )
+     * 
      * @ORM\Column(name="sexe", type="string", length=0, nullable=false, options={"default"="Homme"})
      */
     private $sexe = 'Homme';
@@ -69,14 +102,14 @@ class Pet
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdat = 'CURRENT_TIMESTAMP';
+    private $createdat;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $updatedat = 'CURRENT_TIMESTAMP';
+    private $updatedat;
 
     //@var \User
     /**
@@ -96,6 +129,22 @@ class Pet
     public function __construct()
     {
         $this->locations = new ArrayCollection();
+    }
+
+    /**
+     * Callback appelé à chaque fois qu'on créé une réservation
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @throws \Exception
+     */
+    public function prePersist(){
+        if(empty($this->createdat)){
+            $this->createdat = new \DateTime();
+        }
+        if(empty($this->updatedat)){
+            $this->updatedat = new \DateTime();
+        }
     }
 
     public function getIdpet(): ?int

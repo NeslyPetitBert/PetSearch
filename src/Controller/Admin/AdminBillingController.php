@@ -19,14 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class AdminBillingController extends AbstractController
 {
-
-    private $manager;
-
     private $billingRepo;
 
-    public function __construct(EntityManagerInterface $manager, BillingRepository $billingRepo)
+    public function __construct(BillingRepository $billingRepo)
     {
-        $this->manager = $manager;
         $this->billingRepo = $billingRepo;
     }
     
@@ -60,12 +56,14 @@ class AdminBillingController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param Request $request
      * @return Response
      */
-    public function billingCreate(Request $request): Response
+    public function billingCreate(Request $request, EntityManagerInterface $emi): Response
     {
-        
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $billing = new Billing();
         
         $form = $this->createForm(BillingType::class, $billing);
@@ -73,12 +71,14 @@ class AdminBillingController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($billing);
-            $this->manager->flush();
+            $emi->persist($billing);
+            $emi->flush();
 
             $this->addFlash('success', "La facture a été créée avec succès");
 
-            return $this->redirectToRoute('billings_index');
+            return $this->redirectToRoute('admin_billing_show', [
+                'idbilling' => $billing->getIdbilling(),
+            ]);
 
         }
 
@@ -112,24 +112,27 @@ class AdminBillingController extends AbstractController
      * 
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      *
+     * @param EntityManagerInterface $emi
      * @param Billing $billing
      * @param Request $request
      * @return Response
      */
-    public function billingEdit(Request $request, Billing $billing): Response
+    public function billingEdit(Request $request, Billing $billing, EntityManagerInterface $emi): Response
     {
+        $emi = $this->getDoctrine()->getManager('customer');
+
         $form =$this->createForm(BillingType::class, $billing);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($billing);
-            $this->manager->flush();
+            $emi->persist($billing);
+            $emi->flush();
 
             $this->addFlash('success', "La facture a été modifié avec succès");
 
             return $this->redirectToRoute('admin_billing_show', [
-                'id' => $billing->getIdbilling(),
+                'idbilling' => $billing->getIdbilling(),
             ]);
 
         }
@@ -147,17 +150,20 @@ class AdminBillingController extends AbstractController
      *
      * @Security("is_granted('ROLE_ADMIN')", message="Vous n'êtes pas autorisé à effectuer cette action !")
      * 
+     * @param EntityManagerInterface $emi
      * @param Billing $billing
      * @return Response
      */
-    public function billingDelete(Billing $billing): Response
+    public function billingDelete(Billing $billing, EntityManagerInterface $emi): Response
     {
-        $this->manager->remove($billing);
-        $this->manager->flush();
+        $emi = $this->getDoctrine()->getManager('customer');
+
+        $emi->remove($billing);
+        $emi->flush();
 
         $this->addFlash('danger', "Facture supprimée avec succès");
 
-        return $this->redirectToRoute('admin_billings_index');
+        return $this->redirectToRoute('billings_index');
     }
 
 }

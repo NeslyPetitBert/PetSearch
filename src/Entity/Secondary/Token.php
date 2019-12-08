@@ -3,12 +3,14 @@
 namespace App\Entity\Secondary;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Token
  * 
  * @ORM\Entity()
  * @ORM\Entity(repositoryClass="App\Repository\TokenRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="token", uniqueConstraints={@ORM\UniqueConstraint(name="idtoken_UNIQUE", columns={"idtoken"})}, indexes={@ORM\Index(name="fk_token_user_idx", columns={"user_iduser"})})
  */
 class Token
@@ -54,7 +56,7 @@ class Token
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdat = 'CURRENT_TIMESTAMP';
+    private $createdat;
 
     //@var \User
     /**
@@ -65,6 +67,19 @@ class Token
      */
     private $userIduser;
 
+    /**
+     * Callback appelé à chaque fois qu'on créé une réservation
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @throws \Exception
+     */
+    public function prePersist(){
+        if(empty($this->createdat)){
+            $this->createdat = new \DateTime();
+        }
+    }
+        
     public function getIdtoken(): ?string
     {
         return $this->idtoken;
