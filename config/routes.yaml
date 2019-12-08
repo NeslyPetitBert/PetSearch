@@ -12,13 +12,13 @@ getMailStat:
 
 #{"nombre":[{"nombre":"63844"}]}
 getNbUsers:
-    path: /dashboard/user/nombre
+    path: /dashboard/users
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbUsers
 
 #{"nombre":[{"nombre":"32009"}]}
 getNbActiveUsers:
-    path: /dashboard/user/nbactif
+    path: /dashboard/users
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbActiveUsers
 
