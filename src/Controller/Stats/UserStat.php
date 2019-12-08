@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UserStat extends AbstractController{
 
     /**
-     * @Route("/dashboard/user", name="dashboard")
+     * @Route("/dashboard/user", name="user")
      */
     public function start(): Response {
         return $this->render('dashboard/dashboard.html.twig');

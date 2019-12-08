@@ -2,45 +2,43 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+###USER####
+user:
+    path: /dashboard/user
+    methods: GET
+    controller: App\Controller\Stats\UserStat::start
 
-
-#{"Labels":["yahoo.fr","gmail.com","hotmail.fr","iedj.ie"],"Data":["21419","21246","21177","1"]}
 getMailStat:
     path: /dashboard/user/mail
     methods: GET
     controller: App\Controller\Stats\UserStat::getMailStat
 
-#{"nombre":[{"nombre":"63844"}]}
 getNbUsers:
-    path: /dashboard/users
+    path: /dashboard/user/nbuser
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbUsers
 
-#{"nombre":[{"nombre":"32009"}]}
 getNbActiveUsers:
-    path: /dashboard/users
+    path: /dashboard/user/nbactiv
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbActiveUsers
 
-# resultat bcp trop grand... la flemme
 getNbUserZip:
     path: /dashboard/user/nbzip
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbUserZip
 
-#{"nombre":[{"sexe":"Homme","count(*)":"32000"},{"sexe":"Femme","count(*)":"31847"}]}
 getNbUserSexe:
     path: /dashboard/user/nbsexe
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbUserSexe
 
-#{"nombre":[{"nb":"12295"},{"nb":"5570"},{"nb":"6903"},{"nb":"9587"},{"nb":"29492"}]}
 getNbUserAge:
     path: /dashboard/user/nbbyage
     methods: GET
     controller: App\Controller\Stats\UserStat::getNbUserAge
 
-#beaucoup trop grand pour la suite
+
 getNewUserWeek:
     path: /dashboard/user/nbnewweek
     methods: GET
@@ -61,6 +59,159 @@ getNewUserYear:
     methods: GET
     controller: App\Controller\Stats\UserStat::getNewUserYear
 
+###Token####
 
+token:
+    path: /dashboard/token
+    methods: GET
+    controller: App\Controller\Stats\TokenStat::start
+
+getNbConnexion:
+    path: /dashboard/token/nbconnexion
+    methods: GET
+    controller: App\Controller\Stats\TokenStat::getNbConnexion
+
+getDevices:
+    path: /dashboard/token/devices
+    methods: GET
+    controller: App\Controller\Stats\TokenStat::getDevices
+
+getNbConnexionUserDevice:
+    path: /dashboard/token/nbcodevices
+    methods: GET
+    controller: App\Controller\Stats\TokenStat::getNbConnexionUserDevice
+
+getTempsMoyenConnexion:
+    path: /dashboard/token/moyco
+    methods: GET
+    controller: App\Controller\Stats\TokenStat::getTempsMoyenConnexion
+
+###PET####
+
+pet:
+    path: /dashboard/pet
+    methods: GET
+    controller: App\Controller\Stats\PetStat::start
+
+
+getNbPet:
+    path: /dashboard/nbpet
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNbPet
+
+getNbPetSexe:
+    path: /dashboard/petsexe
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNbPetSexe
+
+getNbPetAge:
+    path: /dashboard/petage
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNbPetAge
+
+getNbPetType:
+    path: /dashboard/pettype
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNbPetType
+
+getNbPetRace:
+    path: /dashboard/petrace
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNbPetRace
+
+getNewPetWeek:
+    path: /dashboard/newpetwk
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNewPetWeek
+
+getNewPetDay:
+    path: /dashboard/newpetday
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNewPetDay
+
+getNewPetMounth:
+    path: /dashboard/newpetmounth
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNewPetMounth
+
+getNewPetYear:
+    path: /dashboard/newpetye
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getNewPetYear
+
+getAquisedPetWeek:
+    path: /dashboard/petacquiwk
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getAquisedPetWeek
+
+getAquisedPetDay:
+    path: /dashboard/petacquiday
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getAquisedPetDay
+
+getAquisedPetMounth:
+    path: /dashboard/petacquimounth
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getAquisedPetMounth
+
+getAquisedPetYear:
+    path: /dashboard/petacquiy
+    methods: GET
+    controller: App\Controller\Stats\PetStat::getAquisedPetYear
+
+###location###
+
+location:
+    path: /dashboard/location
+    methods: GET
+    controller: App\Controller\Stats\LocationStat::start
+
+getNewLocWeek:
+    path: /dashboard/locbywk
+    methods: GET
+    controller: App\Controller\Stats\LocationStat::getNewLocWeek
+
+getNewLocDay:
+    path: /dashboard/locbyday
+    methods: GET
+    controller: App\Controller\Stats\LocationStat::getNewLocDay
+
+getNewLocMounth:
+    path: /dashboard/locbymounth
+    methods: GET
+    controller: App\Controller\Stats\LocationStat::getNewLocMounth
+
+
+getNewLocYear:
+    path: /dashboard/locbyyear
+    methods: GET
+    controller: App\Controller\Stats\LocationStat::getNewLocYear
+
+
+###Billing###
+billing:
+    path: /dashboard/billing
+    methods: GET
+    controller: App\Controller\Stats\BillingStat::start
+
+getSommeBilling:
+    path: /dashboard/sommebill
+    methods: GET
+    controller: App\Controller\Stats\BillingStat::getSommeBilling
+
+getNbBillAll:
+    path: /dashboard/nballbill
+    methods: GET
+    controller: App\Controller\Stats\BillingStat::getNbBillAll
+
+getNbBillInactif:
+    path: /dashboard/nbinabill
+    methods: GET
+    controller: App\Controller\Stats\BillingStat::getNbBillInactif
+
+getNbBillActif:
+    path: /dashboard/nbactbill
+    methods: GET
+    controller: App\Controller\Stats\BillingStat::getNbBillActif
 
 

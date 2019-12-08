@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PetStat extends AbstractController{
 
     /**
-     * @Route("/dashboard/pet", name="dashboard")
+     * @Route("/dashboard/pet", name="pet")
      */
     public function start(): Response {
         return $this->render('dashboard/dashboard.html.twig');

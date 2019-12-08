@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BillingStat extends AbstractController{
 
     /**
-     * @Route("/dashboard/billing", name="dashboard")
+     * @Route("/dashboard/billing", name="billing")
      */
     public function start(): Response {
         return $this->render('dashboard/dashboard.html.twig');
@@ -24,7 +24,7 @@ class BillingStat extends AbstractController{
 
 
  
-    public function getMailStat(ORMEntityManagerInterface $entityManager): Response {
+    public function getSommeBilling(ORMEntityManagerInterface $entityManager): Response {
         $entityManager = $this->getDoctrine()->getManager('customer');
         $res = $entityManager->getRepository(Billing::class)->getSommeBilling();
 
