@@ -41,13 +41,36 @@ class AdminAccountUserController extends AbstractController
     public function userAccount(Request $request, PaginatorInterface $paginator) : Response
     {
 
+        // Les stats des users : 
+        $user_mail = $this->userRepo->getMailStat();
+        $user_nb_actif = $this->userRepo->getNbActiveUsers();
+        $user_zip = $this->userRepo->getNbUserZip();
+        $user_sexe = $this->userRepo->getNbUserSexe();
+        $user_age = $this->userRepo->getNbUserAge();
+        $user_wk = $this->userRepo->getNewUserWeek();
+        $user_day = $this->userRepo->getNewUserDay();
+        $user_mounth = $this->userRepo->getNewUserMounth();
+        $user_year = $this->userRepo->getNewUserYear();
+
+        // Le tableau des users: 
         $users = $paginator->paginate(
             $this->userRepo->findAll(),
             $request->query->getInt('page', 1),
             10);
 
         return $this->render('dashboard/petsearch/user/account/index.html.twig', [
+            // Le tableau des users : 
             'users' => $users,
+
+            'user_mail' => $user_mail,
+            'user_nb_actif' => $user_nb_actif,
+            'user_zip' => $user_zip,
+            'user_sexe' => $user_sexe,
+            'user_age' => $user_age,
+            'user_wk' => $user_wk,
+            'user_day' => $user_day,
+            'user_mounth' => $user_mounth,
+            'user_year' => $user_year,
         ]);
     }
 

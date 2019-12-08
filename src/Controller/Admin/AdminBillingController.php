@@ -38,13 +38,25 @@ class AdminBillingController extends AbstractController
     public function billingsAll(Request $request, PaginatorInterface $paginator) : Response
     {
 
+        // Les stats :
+        $billings_somme = $this->billingRepo->getSommeBilling();
+        $billings_nb_inactif = $this->billingRepo->getNbBillInactif();
+        $billings_nb_actif = $this->billingRepo->getNbBillActif();
+
+        // Le tableau des billings :
         $billings = $paginator->paginate(
             $this->billingRepo->findAll(),
             $request->query->getInt('page', 1),
             10);
 
         return $this->render('dashboard/petsearch/billing/index.html.twig', [
+            // Le tableau des billings
             'billings' => $billings,
+
+            // Les stats
+            'billings_somme' => $billings_somme,
+            'billings_nb_inactif' => $billings_nb_inactif,
+            'billings_nb_actif' => $billings_nb_actif,
         ]);
     }
 

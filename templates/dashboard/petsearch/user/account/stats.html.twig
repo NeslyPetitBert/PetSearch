@@ -1,0 +1,112 @@
+<div class="row">
+
+            {% for key, data in getNbActiveUsers %}
+                {% if data.nombre %}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Nombre d'utilisateurs actifs</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nombre }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        Rien à afficher...
+                {% endif %}
+            {% endfor %}
+
+            {% for key, data in user_mail %}
+                {% if data.nombre_pets %}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Mail statut</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nombre_pets }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-dog fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        Rien à afficher...
+                {% endif %}
+            {% endfor %}
+            
+            {% for key, data in users_stats %}
+                {% if data.nombre_users %}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre d'utilisateur</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nombre_users }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        Rien à afficher...
+                {% endif %}
+            {% endfor %}
+
+            {% for key, data in locations_stats %}
+                {% if data.nombre_locations %}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre de localisation enregistré</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nombre_locations }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-globe-americas fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    {% else %}
+                        Rien à afficher...
+                {% endif %}
+            {% endfor %}
+
+            {% for key, data in tokens_stats %}
+                {% if data.nombre_tokens %}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Nombre total de token généré</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nombre_tokens }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        Rien à afficher...
+                {% endif %}
+            {% endfor %}
+        </div>

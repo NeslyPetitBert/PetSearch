@@ -39,13 +39,43 @@ class AdminPetController extends AbstractController
     public function petsAll(Request $request, PaginatorInterface $paginator) : Response
     {
 
+        // Les stats des animaux
+        $pet_nb_sexe = $this->petRepo->getNbPetSexe();
+        $pet_nb_age = $this->petRepo->getNbPetAge();
+        $pet_nb_type = $this->petRepo->getNbPetType();
+        $pet_nb_race = $this->petRepo->getNbPetRace();
+        $pet_new_wk = $this->petRepo->getNewPetWeek();
+        $pet_new_day = $this->petRepo->getNewPetDay();
+        $pet_new_mounth = $this->petRepo->getNewPetMounth();
+        $pet_new_year = $this->petRepo->getNewPetYear();
+        $pet_aqui_wk = $this->petRepo->getAquisedPetWeek();
+        $pet_aqui_day = $this->petRepo->getAquisedPetDay();
+        $pet_aqui_mounth = $this->petRepo->getAquisedPetMounth();
+        $pet_aqui_year = $this->petRepo->getAquisedPetYear();
+
+        // Le tableau de animaux :
         $pets = $paginator->paginate(
             $this->petRepo->findAll(),
             $request->query->getInt('page', 1),
             10);
 
         return $this->render('dashboard/petsearch/pet/index.html.twig', [
+            // Le tableau des animaux :
             'pets' => $pets,
+
+            // Les stats des animaux :
+            'pet_nb_sexe' => $pet_nb_sexe,
+            'pet_nb_age' => $pet_nb_age,
+            'pet_nb_type' => $pet_nb_type,
+            'pet_nb_race' => $pet_nb_race,
+            'pet_new_day' => $pet_new_day,
+            'pet_new_wk' => $pet_new_wk,
+            'pet_new_mounth' => $pet_new_mounth,
+            'pet_new_year' => $pet_new_year,
+            'pet_aqui_wk' => $pet_aqui_wk,
+            'pet_aqui_day' => $pet_aqui_day,
+            'pet_aqui_mounth' => $pet_aqui_mounth,
+            'pet_aqui_year' => $pet_aqui_year,
         ]);
     }
 

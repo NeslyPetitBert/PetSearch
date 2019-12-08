@@ -39,13 +39,25 @@ class TokenManagementController extends AbstractController
      */
     public function tokenAll(Request $request, PaginatorInterface $paginator) : Response
     {
+        // Les stats des tokens :
+        $token_device = $this->tokenRepo->getDevices();
+        $token_nb_conn_device = $this->tokenRepo->getNbConnexionUserDevice();
+        $token_moy_con = $this->tokenRepo->getTempsMoyenConnexion();
+
+        // Le tableau des tokens :
         $tokens = $paginator->paginate(
             $this->tokRepo->findAll(),
             $request->query->getInt('page', 1),
             10);
 
         return $this->render('dashboard/petsearch/token/index.html.twig', [
+            // Le tableau de tokens :
             'tokens' => $tokens,
+
+            // Les stats des tokens : 
+            'token_device' => $token_device,
+            'token_nb_conn_device' => $token_nb_conn_device,
+            'token_moy_con' => $token_moy_con,
         ]);
     }
 

@@ -1,0 +1,69 @@
+<!-- Content Row -->
+<div class="row">
+
+    {% for key, data in billings_somme %}
+        {% if data.somme_billings %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Somme total des facture</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.somme_billings }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+
+    {% for key, data in billings_nb_inactif %}
+        {% if data.nb_abo_inactif %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre de factures payées par des utilisateurs inactifs</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nb_abo_inactif }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-slash text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+    
+    {% for key, data in billings_nb_actif %}
+        {% if data.nb_abo_actif %}
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Nombre de factures payées par des utilisateurs actifs</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.nb_abo_actif }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-check text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            {% else %}
+                Rien à afficher...
+        {% endif %}
+    {% endfor %}
+</div>
